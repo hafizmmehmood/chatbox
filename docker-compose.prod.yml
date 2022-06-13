@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+   broker-dashboard-ui:
+    image:  broker-dashboard-ui
+    container_name:  broker-dashboard-ui
+    build:
+      context: ./client
+      dockerfile: ./dockerfile
+    restart: on-failure
+    stdin_open: true
+    ports:
+      - 3000:3000
+    depends_on:
+      -  broker-dashboard-api-server
+    volumes:
+      - /usr/app/client/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+   broker-dashboard-api-server:
+    image:  broker-dashboard-server
+    container_name:  broker-dashboard-server
+    build:
+      context: ./
+      dockerfile: ./dockerfile.dev
+    restart: on-failure
+    volumes:
+      - /usr/app/node_modules
+    ports:
+      - '6000:6000'
+    command: npm run start

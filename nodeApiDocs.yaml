@@ -1,0 +1,572 @@
+swagger: "2.0"
+info:
+  title: Crypt Stake Apis Documentation.
+  description: |
+    The REST API allows programmatic access to Crypt Stake features. To use the REST API, you will need trading account API key and wallet address. The REST API can be accessed at localhost:4000/api. The REST API takes full advantage of all HTTP headers. Each part of a request and response is meaningful, including the request method (GET/POST, etc.) and the response status code (200, 400, 404, etc.). Use of this API assumes a working knowledge of these HTTP components, and general use of RESTful web APIs. The REST API uses an hmac authentication for accessing the API. Your need to sign payload by provided apikey using SHA256 algorithm and digest in hex format. Also send user wallet address in params userAddress in header.
+      
+          • signature: asd2be317e158b498c70285bfada86c6385dd55e25d7555b0d6506579d42ec71
+          • userAddress: 0xfb338b746757e120c8f2837c2187d87950e7a5aa
+        
+        Use crypto-js npm package of nodejs. install package use yarn add crypto-js or npm i crypto-js.
+
+          const hmacSHA256 = require('crypto-js/hmac-sha256');
+          const HEX = require('crypto-js/enc-hex');
+          const apiKey =
+        '1E6HC1XQWJSMNODOEKH0ZZ8NGCV4U2UU5JOX475FV2JS3W2TX2VPMOC0IBVFOSVXXSEUP9GZZ1Y0FNK+JCQIVA==';
+          const body = JSON.stringify({
+            value: 0.01,
+            timestamp: 1652764424
+          });
+          const signature = HEX.stringify(hmacSHA256(body, apiKey))
+          console.log("signature = ", signature);
+
+          signature = a0021cf9b41e4aa0f6be49c461c7e2ec25ea20a76b555287a289d886ed339922
+  version: 1.0
+  contact:
+    name: Crypt Stake
+  liscence:
+    name: apache2
+    url: "https://apache.org/"
+  services:
+    -url: "http://cryptstake.amotius.io"
+    description: Crypt Stake
+  # x-logo:
+  x-origin:
+    - format: swagger
+      url: "http://cryptstake.amotius.io"
+      version: "2.0"
+  x-providerName: cryptstake.amotius.io
+  x-unofficialSpec: true
+host: cryptstake.amotius.io
+basePath: /api
+# schemes:
+#   - http
+#   - https
+securityDefinitions:
+  HMAC Authentication:
+    type: apiKey
+    name: signature
+    in: header
+    description: |
+      The REST API uses an hmac authentication for accessing the API. Your need to sign payload by provided apikey using SHA256 algorithm and digest in hex format. 
+      Also send user wallet address in params userAddress in header.
+      
+          • signature: asd2be317e158b498c70285bfada86c6385dd55e25d7555b0d6506579d42ec71
+          • userAddress: 0xfb338b746757e120c8f2837c2187d87950e7a5aa
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: Blockchain
+    description: |
+      This tag contains the list of block chain routes. Following are the actions that users can perform:
+
+          • Fetch chains
+
+  - name: Account
+    description: |
+      This tag contains the list of routes that master account or main trading account can access to create, activate and deactivate users trading accounts. Following are the actions that user can perform:
+
+          • Create accounts
+          • Activate or deactivate accounts
+
+  - name: Transaction
+    description: |
+      This tag contains the list of routes that user account can access to stake, unstake in farms, tranfer and cashout USDC coins. Following are the actions that user can perform:
+
+          • Stake USDC in farm
+          • Unstake tokens from farm
+          • Transfer USDC from user account to main account
+          • Transfer USDC from  main account to user account
+paths:
+  /chains:
+    get:
+      summary: Fetch supported chains, amms and farms
+      description: |
+        The user can fetch supported chains, amms and farms.
+      tags:
+        - Blockchain
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/ChainsResponseObj"
+        "500":
+          description: Internal Server Error
+  /account/{chain}/create:
+    post:
+      summary: Account creation
+      description: Master/Main trading account can create user trading account.
+      tags:
+        - Account
+      parameters:
+        - in: header
+          name: Hmac Authentication header parameters
+          schema:
+            $ref: "#/definitions/HeaderParamsObj"
+        - in: path
+          name: chain
+          type: string
+          description: "Chain abbreviation."
+          example: "Amotius-BSC"
+        - in: body
+          name: Account creation
+          schema:
+            $ref: "#/definitions/AccountCreationObj"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/AccountResponseObj"
+        "400":
+          description: Could not created chain account!
+        "404":
+          description: Chain not found!
+        "422":
+          description: User identifier already use for account creation, Please user unique identifier!
+        "500":
+          description: Internal Server Error
+  /account/{chain}/activate:
+    post:
+      summary: Account activation or deactivation
+      description: Master/Main trading account can activate or deactivate user trading account.
+      tags:
+        - Account
+      parameters:
+        - in: header
+          name: Hmac Authentication header parameters
+          schema:
+            $ref: "#/definitions/HeaderParamsObj"
+        - in: path
+          name: chain
+          type: string
+          description: "Chain abbreviation."
+          example: "Amotius-BSC"
+        - in: body
+          name: Account activation or deactivation
+          schema:
+            $ref: "#/definitions/AccountActivationObj"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/AccountActivationResponseObj"
+        "400":
+          description: Could not created chain account!
+        "404":
+          description: Chain not found!
+        "422":
+          description: User identifier already use for account creation, Please user unique identifier!
+        "500":
+          description: Internal Server Error
+  /tx/{chain}/{amm}/{version}/{farm}/stake:
+    post:
+      summary: Stake USDC into a farm
+      description: User can stake USDC in a farm.
+      tags:
+        - Transaction
+      parameters:
+        - in: header
+          name: Hmac Authentication header parameters
+          schema:
+            $ref: "#/definitions/HeaderParamsObj"
+        - in: path
+          name: chain
+          type: string
+          description: "Chain abbreviation."
+          example: "Amotius-BSC"
+        - in: path
+          name: amm
+          type: string
+          description: "yieldOptimizers abbreviation."
+          example: "BSC-PancakeSwap-Beefy"
+        - in: path
+          name: v1
+          type: string
+          description: "Version."
+          example: "v1"
+        - in: path
+          name: farm
+          type: string
+          description: "Farm tokens."
+          example: "ETH-USDC"
+        - in: body
+          name: Stake in a farm
+          schema:
+            $ref: "#/definitions/StakeObj"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/StakeResponseObj"
+        "400":
+          description: 'Failed to submit your request!'
+        "404":
+          description: Chain not found!
+        "422":
+          description: Api call failed due to some unknown reason, Please contact with Developers!
+        "500":
+          description: Internal Server Error
+  /tx/{chain}/{amm}/{version}/{farm}/unstake:
+    post:
+      summary: Unstake tokens from farm and convert to USDC
+      description: Unstake tokens from farm and convert to USDC.
+      tags:
+        - Transaction
+      parameters:
+        - in: header
+          name: Hmac Authentication header parameters
+          schema:
+            $ref: "#/definitions/HeaderParamsObj"
+        - in: path
+          name: chain
+          type: string
+          description: "Chain abbreviation."
+          example: "Amotius-BSC"
+        - in: path
+          name: amm
+          type: string
+          description: "yieldOptimizers abbreviation."
+          example: "BSC-PancakeSwap-Beefy"
+        - in: path
+          name: v1
+          type: string
+          description: "Version."
+          example: "v1"
+        - in: path
+          name: farm
+          type: string
+          description: "Farm tokens."
+          example: "ETH-USDC"
+        - in: body
+          name: Unstake tokens from farm and convert to USDC
+          schema:
+            $ref: "#/definitions/UnStakeObj"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/UnStakeResponseObj"
+        "400":
+          description: 'Failed to submit your request!'
+        "404":
+          description: Chain not found!
+        "422":
+          description: Api call failed due to some unknown reason, Please contact with Developers!
+        "500":
+          description: Internal Server Error        
+  /tx/{chain}/cashout:
+    post:
+      summary: Cashout USDC
+      description: Transfer USDC from user account to master account.
+      tags:
+        - Transaction
+      parameters:
+        - in: header
+          name: Hmac Authentication header parameters
+          schema:
+            $ref: "#/definitions/HeaderParamsObj"
+        - in: path
+          name: chain
+          type: string
+          description: "Chain abbreviation."
+          example: "Amotius-BSC"
+        - in: body
+          name: Cashout USDC
+          schema:
+            $ref: "#/definitions/CashoutObj"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/CashoutResponseObj"
+        "400":
+          description: 'Failed to submit your request!'
+        "404":
+          description: Chain not found!
+        "422":
+          description: Api call failed due to some unknown reason, Please contact with Developers!
+        "500":
+          description: Internal Server Error        
+  /tx/{chain}/transfer:
+    post:
+      summary: Transfer USDC
+      description: Transfer USDC from master account to user account.
+      tags:
+        - Transaction
+      parameters:
+        - in: header
+          name: Hmac Authentication header parameters
+          schema:
+            $ref: "#/definitions/HeaderParamsObj"
+        - in: path
+          name: chain
+          type: string
+          description: "Chain abbreviation."
+          example: "Amotius-BSC"
+        - in: body
+          name: Transfer USDC
+          schema:
+            $ref: "#/definitions/TransferObj"
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/TransferResponseObj"
+        "400":
+          description: 'Failed to submit your request!'
+        "404":
+          description: Chain not found!
+        "422":
+          description: Api call failed due to some unknown reason, Please contact with Developers!
+        "500":
+          description: Internal Server Error        
+
+definitions:
+  HeaderParamsObj:
+    type: object
+    required:
+      - signature
+      - userAddress
+    properties:
+      signature:
+        type: string
+        description: "Payload sign by account apikey using SHA256 algorithm and digest in hex format."
+        example: "asd2be317e158b498c70285bfada86c6385dd55e25d7555b0d6506579d42ec71"
+      userAddress:
+        type: string
+        description: "Wallet address."
+        example: "0xfb338b746757e120c8f2837c2187d87950e7a5aa"
+  AccountCreationObj:
+    type: object
+    required:
+      - timestamp
+      - userId
+    properties:
+      timestamp:
+        type: number
+        description: "Current timestamp."
+        example: 1652764424
+      userId: 
+        type: string
+        description: "User unique identifier"
+        example: "128f566e8e56fb51d1a67a43"
+  AccountActivationObj:
+    type: object
+    required:
+      - enabled
+      - timestamp
+      - accountAddress
+    properties:
+      enabled:
+        type: boolean
+        description: "Chain Id to create trading account on chain."
+        example: false
+      timestamp:
+        type: number
+        description: "Current timestamp."
+        example: 1652764424
+      accountAddress: 
+        type: string
+        description: "User wallet address"
+        example: "0xbb338b746757e120c8f2837c2187d87950e7a5aa"
+  AccountActivationResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      data:
+        type: object
+        properties:
+          accountAddress:
+            type: string
+            example: "0xbb338b746757e120c8f2837c2187d87950e7a5aa"
+          enabled:
+            type: boolean
+            example: false
+      message:
+        type: string
+        example: "Account disabled successfully!"
+  AccountResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      data:
+        type: object
+        properties:
+          chainId:
+            type: string
+            example: "628f566e8e56fb51d1a67a43"
+          userId: 
+            type: string
+            example: "128f566e8e56fb51d1a67a43"
+          walletAddress:
+            type: string
+            example: "0xbb338b746757e120c8f2837c2187d87950e7a5aa"
+          apiKey:
+            type: string
+            example: "ABVIKV/TWWGDEHEQ2LERRQ3QOVZFOBRBZ/FRN/U+AGB5TN41QJH7EQVNNLKSPJZHZKRSZ7C26EYY74ZUBV5DPA=="
+          enabled:
+            type: boolean
+            example: true
+          walletIndex:
+            type: string
+            example: "1"
+      message:
+        type: string
+        example: "User trading account created successfully!"
+  StakeObj:
+    type: object
+    required:
+      - value
+      - timestamp
+    properties:
+      value:
+        type: number
+        description: "USDC value want to stake."
+        example: 1000
+      timestamp:
+        type: number
+        description: "Current timestamp."
+        example: 1652764424
+  StakeResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      logId:
+        type: string
+        example: "628f566e8e56fb51d1a67a43"
+      message:
+        type: string
+        example: 'Request was successfully submitted!'
+  UnStakeObj:
+    type: object
+    required:
+      - timestamp
+    properties:
+      timestamp:
+        type: number
+        description: "Current timestamp."
+        example: 1652764424
+  UnStakeResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      logId:
+        type: string
+        example: "628f566e8e56fb51d1a67a43"
+      message:
+        type: string
+        example: 'Request was successfully submitted!'
+  CashoutObj:
+    type: object
+    required:
+      - timestamp
+      - value
+    properties:
+      value:
+        type: number
+        description: "USDC value want to cashout."
+        example: 1000
+      timestamp:
+        type: number
+        description: "Current timestamp."
+        example: 1652764424
+  CashoutResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      logId:
+        type: string
+        example: "628f566e8e56fb51d1a67a43"
+      message:
+        type: string
+        example: 'Request was successfully submitted!'
+  TransferObj:
+    type: object
+    required:
+      - timestamp
+      - value
+      - accountAddress
+    properties:
+      value:
+        type: number
+        description: "USDC value want to cashout."
+        example: 1000
+      timestamp:
+        type: number
+        description: "Current timestamp."
+        example: 1652764424
+      accountAddress:
+        type: string
+        description: "Recipient wallet address."
+        example: "0xbb338b746757e120c8f2837c2187d87950e7a5aa"
+  TransferResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      logId:
+        type: string
+        example: "628f566e8e56fb51d1a67a43"
+      message:
+        type: string
+        example: 'Request was successfully submitted!'
+  FarmsResponseObj:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "628f566e8e56fb51d1a67a43"
+      name:
+        type: string
+        example: "ETH-WBNB"
+      enabled:
+        type: boolean
+        example: true
+  AmmsResponseObj:
+    type: object
+    properties:
+      "Matic-ApeSwap-Beefy":
+        type: object
+        properties:
+          farms:
+            type: array
+            items:
+            $ref: "#/definitions/FarmsResponseObj"
+  ChainResponseObj:
+    type: object
+    properties:
+      name:
+        type: string
+        example: "Matic"
+      abbrev:
+        type: string
+        example: "Matic"
+      chainId:
+        type: string
+        example: "628f566e8e56fb51d1a67a43"
+      enabled:
+        type: boolean
+        example: true
+      yieldOptimizers:
+        type: array
+        items:
+          $ref: "#/definitions/AmmsResponseObj"
+  ChainsResponseObj:
+    type: object
+    properties:
+      code:
+        type: number
+        example: 200
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ChainResponseObj"
+      message:
+        type: string
+        example: "Chains fetched successfully!"       

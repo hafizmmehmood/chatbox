@@ -1,0 +1,15 @@
+#  This template allows you to validate your NodeJS code.
+#  The workflow allows running tests and code linting on the default branch.
+
+image: node:14-alpine
+
+pipelines:
+  branches:
+    test-and-develop:
+      - step:
+          name: Build and Test.
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run test

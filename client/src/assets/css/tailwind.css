@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark {
+  --color-primary: #1e293b;
+  --color-secondary: #e2e8f0;
+}
+
+.light {
+  --color-primary: #991b1b;
+  --color-secondary: #fecaca;
+}
+@layer base {
+  .main-container {
+    background: #f6f8fe;
+  }
+  .main-header {
+    box-shadow: 0px 5px 20px rgba(124, 124, 124, 0.15) !important;
+  }
+  .main-sidebar {
+    box-shadow: 5px 0px 20px rgba(124, 124, 124, 0.15) !important;
+  }
+  .bg-nav-gradient {
+    background: linear-gradient(
+      90deg,
+      rgba(94, 114, 228, 0.7) 0%,
+      rgba(255, 255, 255, 0) 78.6%
+    );
+  }
+
+  .bg-card-container {
+    background: #ffffff;
+    border-radius: 32px !important;
+    box-shadow: none !important;
+  }
+  .bg-card-header {
+    background: #e3e7fa;
+    border-radius: 32px 32px 0px 0px;
+  }
+  .bg-header {
+    background: #fff;
+  }
+  .text-wrap-100 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+    margin: 0 auto;
+  }
+  .border-top-1 {
+    @apply border-gray-300;
+    border-top-width: 1px;
+  }
+  .remove-padding-border.MuiTableCell-root {
+    padding: 0px;
+    border: none;
+  }
+  .font-semibold {
+    font-weight: 600 !important;
+  }
+  /* border */
+  .custom-text-field .MuiOutlinedInput-root fieldset {
+    @apply border-indigo-400;
+  }
+  .custom-text-field-dark .MuiOutlinedInput-root fieldset {
+    @apply border-gray-400;
+  }
+  /* /text color */
+  .custom-text-field .MuiOutlinedInput-root {
+    @apply text-gray-800;
+  }
+  .custom-text-field-dark .MuiOutlinedInput-root {
+    @apply text-gray-200;
+  }
+
+  /* label */
+  .custom-text-field .MuiInputLabel-root {
+    @apply text-indigo-700;
+  }
+  .custom-text-field .MuiInputLabel-root.Mui-focused {
+    @apply text-indigo-700;
+  }
+  .custom-text-field-dark .MuiInputLabel-root {
+    @apply text-gray-200;
+  }
+
+  /* border hover */
+  .custom-text-field .MuiOutlinedInput-root:hover fieldset {
+    @apply border-indigo-700;
+  }
+  .custom-text-field-dark .MuiOutlinedInput-root:hover fieldset {
+    @apply border-gray-300;
+  }
+
+  /* border focus */
+  .custom-text-field .MuiOutlinedInput-root.MuiInputLabel-root.Mui-focused {
+    @apply text-indigo-700;
+  }
+  .custom-text-field-dark
+    .MuiOutlinedInput-root.MuiInputLabel-root.Mui-focused {
+    @apply text-gray-200;
+  }
+
+  /* autocomplete dropdown icon */
+  .custom-text-field .MuiSvgIcon-root {
+    @apply text-indigo-700;
+  }
+
+  .custom-text-field-dark .MuiSvgIcon-root {
+    @apply text-gray-200;
+  }
+
+  /* background paper color */
+  .dialog-modal-cont .MuiPaper-root {
+    @apply bg-slate-600;
+  }
+
+  /* input selectio classes */
+  .custom-input-select .MuiOutlinedInput-root fieldset {
+    @apply border-indigo-400;
+  }
+  .custom-input-select-dark .MuiOutlinedInput-root fieldset {
+    @apply border-gray-400;
+  }
+
+  /* border hover */
+  .custom-input-select .MuiOutlinedInput-root:hover fieldset {
+    @apply border-indigo-700;
+  }
+  .custom-input-select-dark .MuiOutlinedInput-root:hover fieldset {
+    @apply border-gray-300;
+  }
+
+  /* /text color */
+  .custom-input-select .MuiOutlinedInput-root {
+    @apply text-gray-800;
+  }
+  .custom-input-select-dark .MuiOutlinedInput-root {
+    @apply text-gray-200;
+  }
+  
+  .custom-input-select .MuiSvgIcon-root {
+    @apply text-indigo-700;
+  }
+  .custom-input-select-dark .MuiSvgIcon-root {
+    @apply text-gray-200;
+  }
+
+  /* label */
+  .custom-input-select .MuiInputLabel-root {
+    @apply text-indigo-700;
+  }
+  .custom-input-select .MuiInputLabel-root.Mui-focused {
+    @apply text-indigo-700;
+  }
+  .custom-input-select-dark .MuiInputLabel-root {
+    @apply text-gray-200;
+  }
+  /* Paper */
+  .custom-paper {
+    max-width: 'calc(100vw - 310px)';
+    margin-bottom: 2px;
+  }
+}
