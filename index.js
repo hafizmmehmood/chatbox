@@ -9,8 +9,8 @@ const connectDB = require('./config/database');
 require('./models');
 const Port =
   process.env.NODE_ENV && process.env.NODE_ENV === 'test'
-    ? process.env.TEST_PORT || 6001
-    : process.env.PORT || 6000;
+    ? process.env.TEST_PORT || 4001
+    : process.env.PORT || 4000;
 // Api documentations
 const YAML = require('yamljs');
 const swaggerJsDocs = YAML.load('./nodeApiDocs.yaml');

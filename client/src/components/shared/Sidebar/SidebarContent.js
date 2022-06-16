@@ -1,10 +1,9 @@
 import React from 'react';
-import routes from '../../../routes/sidebar';
-import { NavLink, Route, useLocation } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import * as Icons from '../../../icons';
-import SidebarSubmenu from './SidebarSubmenu';
 import { serverUrl } from '../../../config/config';
-import clsx from 'clsx';
+import SidebarMenu from './SidebarMenu';
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon];
@@ -13,18 +12,12 @@ function Icon({ icon, ...props }) {
 
 const org = JSON.parse(localStorage.getItem('organization'));
 
-function SidebarContent() {
-  const location = useLocation();
-  const role = localStorage.getItem('role');
-  const Routes =
-    role && role !== 'super'
-      ? routes.filter((r) => r.path !== '/admins')
-      : routes;
+function SidebarContent({ toggleSideBar, HandleToggleSideBar }) {
   return (
-    <div className="text-gray-500 dark:text-gray-400">
-      <div className="flex p-3 px-6">
+    <div className="flex flex-col h-full w-full text-gray-500 dark:text-gray-400 relative">
+      <div className="sidebar-header flex p-3 mb-3 overflow-hidden">
         <a
-          className="text-lg font-bold text-gray-800 dark:text-gray-200"
+          className="text-lg font-bold text-gray-800 dark:text-gray-200 whitespace-nowrap"
           href="/dashboard">
           {org && org.logoUrl ? (
             <span className="flex items-center">
@@ -33,57 +26,66 @@ function SidebarContent() {
                 alt="logo"
                 className="w-12 h-12 mr-2"
               />{' '}
-              <span>
-                {org && org.organizationName ? org.organizationName : 'Amotius'}
+              <span className="logo-dec text-blue-700 dark:text-blue-200">
+                {org && org.organizationName
+                  ? org.organizationName
+                  : 'Crypt Stake'}
               </span>
             </span>
           ) : (
             <span className="flex items-center">
               <img src={'/logo.svg'} alt="logo" className="w-12 h-12 mr-2" />{' '}
-              <span className="text-blue-700 dark:text-blue-200">Amotius</span>
+              <span className="logo-dec text-blue-700 dark:text-blue-200">
+                Crypt Stake
+              </span>
             </span>
           )}
         </a>
-      </div>
-      <ul className="mt-2">
-        {Routes.map((route) =>
-          route.routes ? (
-            <SidebarSubmenu route={route} key={route.name} />
-          ) : (
-            <li
-              className={
-                location.pathname.includes(route.path)
-                  ? 'relative px-6 py-3 bg-nav-gradient text-indigo-700' +
-                    (route.seperator ? ' border-top-1' : '')
-                  : 'relative px-6 py-3' +
-                    (route.seperator ? ' border-top-1' : '')
-              }
-              key={route.name}>
-              <NavLink
-                exact
-                to={route.path}
-                className={clsx(
-                  'inline-flex items-center w-full text-sm font-semibold transition-colors duration-150  hover:text-indigo-500 dark:hover:text-gray-200',
-                  location.pathname.includes(route.path)
-                    ? 'text-indigo-700'
-                    : 'text-gray-400'
-                )}
-                activeClassName="text-indigo-600 dark:text-gray-100">
-                <Route path={route.path} exact={route.exact}>
-                  <span
-                    className="absolute inset-y-0 left-0 w-1 bg-indigo-500 rounded-tr-lg rounded-br-lg"
-                    aria-hidden="true"></span>
-                </Route>
-                <Icon
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  icon={route.icon}
+
+        <div className="absolute -right-4 z-50 ${toggleSideBar toggle-sidebar-btn">
+          <Tooltip
+            title={toggleSideBar ? 'Collapse sidebar' : 'Expand sidebar'}
+            className="z-100"
+            placement="right"
+            arrow>
+            {toggleSideBar ? (
+              <span className='block border-2 bg-white dark:bg-gray-300 border-indigo-600 p-2 rounded-full'>
+                <FaArrowRight
+                  onClick={HandleToggleSideBar}
+                  className="text-indigo-600 text-sm cursor-pointer"
                 />
-                <span className="ml-4">{route.name}</span>
-              </NavLink>
-            </li>
-          )
-        )}
+              </span>
+            ) : (
+              <span className='block border-2 bg-white dark:bg-gray-300 border-indigo-600 p-2 rounded-full'>
+                <FaArrowLeft
+                  onClick={HandleToggleSideBar}
+                  className="text-indigo-600 text-sm cursor-pointer"
+                />
+              </span>
+            )}
+          </Tooltip>
+        </div>
+      </div>
+
+      <div className="h-full overflow-y-auto overflow-x-visible">
+        <SidebarMenu />
+      </div>
+
+      <ul>
+        <li className="px-6 py-3 relative border-top-1">
+          <a
+            target="_blank"
+            href={process.env.REACT_APP_DOCS_URL}
+            className={
+              'cursor-pointer dark:hover:text-gray-200 duration-150 font-semibold hover:text-indigo-500 inline-flex items-center text-gray-400 text-sm transition-colors w-full whitespace-nowrap'
+            }
+            rel="noreferrer">
+            <span className="block">
+              <Icon className="w-5 h-5" aria-hidden="true" icon={'DocsIcon'} />
+            </span>
+            <span className="ml-4 sidebar-nav-item-desc">{'Docs'}</span>
+          </a>
+        </li>
       </ul>
     </div>
   );

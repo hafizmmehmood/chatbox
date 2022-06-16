@@ -1,4 +1,4 @@
-import React, { useContext, Suspense, useEffect, lazy } from 'react';
+import React, {useState, useContext, Suspense, useEffect, lazy,useCallback } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { routes } from '../routes';
 import Sidebar from '../components/shared/Sidebar';
@@ -13,6 +13,11 @@ const Page404 = lazy(() => import('../pages/404'));
 
 function Layout() {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
+  const [toggleSideBar,setToggleSideBar] = useState(false);
+  
+  const HandleToggleSideBar = useCallback(()=>{
+    setToggleSideBar(!toggleSideBar);
+  },[toggleSideBar])
   let location = useLocation();
 
   useEffect(() => {
@@ -25,9 +30,9 @@ function Layout() {
       className={`flex h-screen bg-gray-50 dark:bg-gray-900 ${
         isSidebarOpen && 'overflow-hidden'
       }`}>
-      <Sidebar />
+      <Sidebar toggleSideBar={toggleSideBar} HandleToggleSideBar={HandleToggleSideBar} />
       <div className="flex flex-col flex-1 w-full">
-        <Header />
+        <Header  toggleSideBar={toggleSideBar} />
         <ToastContainer
           position="bottom-right"
           autoClose={5000}
@@ -40,7 +45,7 @@ function Layout() {
           theme="colored"
           pauseOnHover
         />
-        <Main>
+        <Main toggleSideBar={toggleSideBar}>
           <Suspense fallback={<ThemedSuspense />}>
             <Switch>
               {routes.map((route, i) => {
