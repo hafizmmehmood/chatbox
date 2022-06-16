@@ -7,6 +7,7 @@ const Login = lazy(() => import('../pages/auth/Login'));
 const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'));
 const ResetPassword = lazy(() => import('../pages/auth/ResetPassword'));
 const Confirmation = lazy(() => import('../pages/auth/Confirmation'));
+const Page404 = lazy(() => import('../pages/404'));
 
 const routes = [
   {
@@ -14,8 +15,16 @@ const routes = [
     component: Dashboard // view rendered
   },
   {
+    path: '/transaction', // the url
+    component: Admins // view rendered
+  },
+  {
     path: '/admins',
     component: Admins
+  },
+  {
+    path: '/abc',
+    component: Page404
   }
 ];
 

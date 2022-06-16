@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Page404 = lazy(() => import('../pages/404'));
 
 function Layout() {
+  const menuType = "bottom";
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const [toggleSideBar,setToggleSideBar] = useState(false);
   
@@ -30,9 +31,9 @@ function Layout() {
       className={`flex h-screen bg-gray-50 dark:bg-gray-900 ${
         isSidebarOpen && 'overflow-hidden'
       }`}>
-      <Sidebar toggleSideBar={toggleSideBar} HandleToggleSideBar={HandleToggleSideBar} />
+      <Sidebar menuType={menuType} toggleSideBar={toggleSideBar} HandleToggleSideBar={HandleToggleSideBar} />
       <div className="flex flex-col flex-1 w-full">
-        <Header  toggleSideBar={toggleSideBar} />
+        <Header menuType={menuType} toggleSideBar={toggleSideBar} />
         <ToastContainer
           position="bottom-right"
           autoClose={5000}
@@ -45,7 +46,7 @@ function Layout() {
           theme="colored"
           pauseOnHover
         />
-        <Main toggleSideBar={toggleSideBar}>
+        <Main menuType = {menuType} toggleSideBar={toggleSideBar}>
           <Suspense fallback={<ThemedSuspense />}>
             <Switch>
               {routes.map((route, i) => {

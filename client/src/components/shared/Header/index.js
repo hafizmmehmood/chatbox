@@ -5,17 +5,30 @@ import { MenuIcon } from '../../../icons';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import Dropdown from '../../shared/Dropdown';
 import { serverUrl } from '../../../config/config';
+import SidebarHeader from '../Sidebar/SidebarHeader';
+import MenuBarContent from '../MenuBar';
 
-function Header({ toggleSideBar }) {
+function Header({ menuType, toggleSideBar }) {
   const org = JSON.parse(localStorage.getItem('organization'));
   const { toggleSidebar } = useContext(SidebarContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const menuPosition = menuType === 'bottom' || menuType === 'top';
+  const isTopMenu = menuType === 'top';
   return (
     <header
       className={`z-40 py-4 bg-white dark:bg-gray-800 main-header ${
-        toggleSideBar ? 'lg:collapse-header' : 'lg:expand-header'
+        menuPosition
+          ? 'top-header'
+          : toggleSideBar
+          ? 'lg:collapse-header'
+          : 'lg:expand-header'
       }`}>
       <div className="flex items-center justify-between h-full px-6 mx-auto text-blue-700 dark:text-blue-200">
+        <div className="hidden lg:flex">
+          {menuPosition && <SidebarHeader />}
+          {isTopMenu && <MenuBarContent />}
+        </div>
+
         <div className="flex overflow-hidden lg:hidden ">
           <a
             className="text-lg font-bold text-gray-800 dark:text-gray-200 whitespace-nowrap"
@@ -42,25 +55,26 @@ function Header({ toggleSideBar }) {
           </button>
         </div>
 
-        <div className="flex justify-center flex-1 lg:mr-32"></div>
         <div className="dark:text-gray-400 duration-500 ease-in-out font-medium pr-4 rounded-full text-gray-500 text-xl transition">
           {org && org.organizationName}
         </div>
-        <div className="transition duration-500 ease-in-out rounded-full p-2">
-          {theme === 'dark' ? (
-            <FaSun
-              onClick={toggleTheme}
-              className="text-gray-500 dark:text-gray-400 text-2xl cursor-pointer"
-            />
-          ) : (
-            <FaMoon
-              onClick={toggleTheme}
-              className="text-gray-500 dark:text-gray-400 text-2xl cursor-pointer"
-            />
-          )}
-        </div>
-        <div className="flex items-center flex-shrink-0 space-x-6">
-          <Dropdown />
+        <div className='flex'>
+          <div className="transition duration-500 ease-in-out rounded-full p-2">
+            {theme === 'dark' ? (
+              <FaSun
+                onClick={toggleTheme}
+                className="text-gray-500 dark:text-gray-400 text-2xl cursor-pointer"
+              />
+            ) : (
+              <FaMoon
+                onClick={toggleTheme}
+                className="text-gray-500 dark:text-gray-400 text-2xl cursor-pointer"
+              />
+            )}
+          </div>
+          <div className="flex items-center flex-shrink-0 space-x-6">
+            <Dropdown />
+          </div>
         </div>
       </div>
     </header>

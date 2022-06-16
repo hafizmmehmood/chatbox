@@ -12,9 +12,19 @@ const routes = [
     name: 'Dashboard' // name that appear in Sidebar
   },
   {
+    path: '/transaction', // the url
+    icon: 'HomeIcon', // the component being exported from icons/index.js
+    name: 'Transaction' // name that appear in Sidebar
+  },
+  {
     path: '/admins',
     icon: 'OutlinePersonIcon',
     name: 'Admins'
+  },
+  {
+    path: '/abc',
+    icon: 'OutlinePersonIcon',
+    name: 'Abc'
   }
 ];
 

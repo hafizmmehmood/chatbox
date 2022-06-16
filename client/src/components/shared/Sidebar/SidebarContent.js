@@ -2,46 +2,20 @@ import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import * as Icons from '../../../icons';
-import { serverUrl } from '../../../config/config';
 import SidebarMenu from './SidebarMenu';
+import SidebarHeader from './SidebarHeader';
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon];
   return <Icon {...props} />;
 }
 
-const org = JSON.parse(localStorage.getItem('organization'));
 
 function SidebarContent({ toggleSideBar, HandleToggleSideBar }) {
   return (
     <div className="flex flex-col h-full w-full text-gray-500 dark:text-gray-400 relative">
       <div className="sidebar-header flex p-3 mb-3 overflow-hidden">
-        <a
-          className="text-lg font-bold text-gray-800 dark:text-gray-200 whitespace-nowrap"
-          href="/dashboard">
-          {org && org.logoUrl ? (
-            <span className="flex items-center">
-              <img
-                src={serverUrl + '/' + org?.logoUrl}
-                alt="logo"
-                className="w-12 h-12 mr-2"
-              />{' '}
-              <span className="logo-dec text-blue-700 dark:text-blue-200">
-                {org && org.organizationName
-                  ? org.organizationName
-                  : 'Crypt Stake'}
-              </span>
-            </span>
-          ) : (
-            <span className="flex items-center">
-              <img src={'/logo.svg'} alt="logo" className="w-12 h-12 mr-2" />{' '}
-              <span className="logo-dec text-blue-700 dark:text-blue-200">
-                Crypt Stake
-              </span>
-            </span>
-          )}
-        </a>
-
+        <SidebarHeader />
         <div className="absolute -right-4 z-50 ${toggleSideBar toggle-sidebar-btn">
           <Tooltip
             title={toggleSideBar ? 'Collapse sidebar' : 'Expand sidebar'}
