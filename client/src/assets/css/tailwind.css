@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Roobert';
+  src: url('../../../public/fonts/Roobert-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Reckless Regular';
+  src: url('../../../public/fonts/RecklessNeue-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Reckless Neue';
+  src: url('../../../public/fonts/RecklessNeue-Light.ttf');
+}
+
 .dark {
   --color-primary: #1e293b;
   --color-secondary: #e2e8f0;
@@ -19,17 +34,11 @@
   }
 
   .collapse-header {
-    padding-left: 70px;
+    padding-left: 80px;
     transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
   }
 
-  .collapse-sidebar {
-    width: 70px;
-    z-index: 99999;
-    position: fixed;
-    left: 0;
-    transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
-  }
+ 
 
   .app-cont {
     transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
@@ -44,7 +53,21 @@
   }
 
   .collapse-app-cont {
-    padding-left: 70px;
+    padding-left: 80px;
+    transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
+  }
+
+  /* sidebar styles */
+
+  .sidebar-cont{
+    background: #292929;
+
+  }
+  .collapse-sidebar {
+    width: 80px;
+    z-index: 99999;
+    position: fixed;
+    left: 0;
     transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
   }
 
@@ -134,13 +157,35 @@
   }
 
   .sidebar-header {
-    height: 70px;
+    border-bottom: 1px solid #343434;
   }
 
-  .bg-nav-gradient {
-    background: linear-gradient(90deg,
-        rgba(94, 114, 228, 0.7) 0%,
-        rgba(255, 255, 255, 0) 78.6%);
+  .sidebar-navigation-cont{
+    padding: 30px 15px;
+  }
+  .sidebar-navigation ul li>a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    height: 44px;
+    padding: 0 15px;
+    font-size: 1rem;
+    font-family: "Roobert";
+    white-space: nowrap;
+    color: rgba(255, 255, 255, .25);
+    font-weight: 500 !important;
+    margin: 1px;
+  }
+  .sidebar-navigation ul li>a:hover,
+  .sidebar-navigation ul li>a.active {
+    color: #fff;
+    background: rgba(122, 109, 226, .25);
+    border-radius: 10px;
+  }
+
+  .sidebar-navigation-bottom{
+    border-top: 1px solid #343434;
   }
 
   .bg-card-container {

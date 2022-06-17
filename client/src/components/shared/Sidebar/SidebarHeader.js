@@ -13,17 +13,17 @@ const SidebarHeader = () => {
                 alt="logo"
                 className="w-12 h-12 mr-2"
               />{' '}
-              <span className="logo-dec text-blue-700 dark:text-blue-200">
+              <span className="logo-dec text-white">
                 {org && org.organizationName
                   ? org.organizationName
-                  : 'Crypt Stake'}
+                  : 'Broker'}
               </span>
             </span>
           ) : (
             <span className="flex items-center">
               <img src={'/logo.svg'} alt="logo" className="w-12 h-12 mr-2" />{' '}
-              <span className="logo-dec text-blue-700 dark:text-blue-200">
-                Crypt Stake
+              <span className="logo-dec text-white">
+                Broker
               </span>
             </span>
           )}

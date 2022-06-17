@@ -7,7 +7,7 @@ function DesktopSidebar(props) {
   const {toggleSideBar} = props;
 
   return (
-    <aside className={clsx("hidden flex-col h-full bg-white dark:bg-gray-800  lg:flex", toggleSideBar ? "collapse-sidebar" : "expand-sidebar") }>
+    <aside className={clsx("sidebar-cont hidden flex-col h-full lg:flex", toggleSideBar ? "collapse-sidebar" : "expand-sidebar") }>
       <SidebarContent {...props} />
     </aside>
   )

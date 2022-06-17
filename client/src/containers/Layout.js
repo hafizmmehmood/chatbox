@@ -12,7 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Page404 = lazy(() => import('../pages/404'));
 
 function Layout() {
-  const menuType = "bottom";
+  const menuType = "left";
+  
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const [toggleSideBar,setToggleSideBar] = useState(false);
   

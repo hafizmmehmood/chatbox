@@ -25,7 +25,8 @@ const routes = [
   {
     path: '/abc',
     component: Page404
-  }
+  },
+  
 ];
 
 const authRoutes = [

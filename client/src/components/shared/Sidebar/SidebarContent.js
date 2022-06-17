@@ -10,11 +10,10 @@ function Icon({ icon, ...props }) {
   return <Icon {...props} />;
 }
 
-
 function SidebarContent({ toggleSideBar, HandleToggleSideBar }) {
   return (
     <div className="flex flex-col h-full w-full text-gray-500 dark:text-gray-400 relative">
-      <div className="sidebar-header flex p-3 mb-3 overflow-hidden">
+      <div className="sidebar-header flex p-4 overflow-hidden">
         <SidebarHeader />
         <div className="absolute -right-4 z-50 ${toggleSideBar toggle-sidebar-btn">
           <Tooltip
@@ -22,45 +21,45 @@ function SidebarContent({ toggleSideBar, HandleToggleSideBar }) {
             className="z-100"
             placement="right"
             arrow>
-            {toggleSideBar ? (
-              <span className='block border-2 bg-white dark:bg-gray-300 border-indigo-600 p-2 rounded-full'>
-                <FaArrowRight
-                  onClick={HandleToggleSideBar}
-                  className="text-indigo-600 text-sm cursor-pointer"
-                />
-              </span>
-            ) : (
-              <span className='block border-2 bg-white dark:bg-gray-300 border-indigo-600 p-2 rounded-full'>
-                <FaArrowLeft
-                  onClick={HandleToggleSideBar}
-                  className="text-indigo-600 text-sm cursor-pointer"
-                />
-              </span>
-            )}
+            <span
+              className="block border bg-white  border-black p-3 rounded-full cursor-pointer"
+              onClick={HandleToggleSideBar}>
+              {toggleSideBar ? (
+                <FaArrowRight className="text-black text-sm " />
+              ) : (
+                <FaArrowLeft className="text-black text-sm " />
+              )}
+            </span>
           </Tooltip>
         </div>
       </div>
 
-      <div className="h-full overflow-y-auto overflow-x-visible">
+      <div className="sidebar-navigation-cont h-full overflow-y-auto overflow-x-visible">
         <SidebarMenu />
       </div>
 
-      <ul>
-        <li className="px-6 py-3 relative border-top-1">
-          <a
-            target="_blank"
-            href={process.env.REACT_APP_DOCS_URL}
-            className={
-              'cursor-pointer dark:hover:text-gray-200 duration-150 font-semibold hover:text-indigo-500 inline-flex items-center text-gray-400 text-sm transition-colors w-full whitespace-nowrap'
-            }
-            rel="noreferrer">
-            <span className="block">
-              <Icon className="w-5 h-5" aria-hidden="true" icon={'DocsIcon'} />
-            </span>
-            <span className="ml-4 sidebar-nav-item-desc">{'Docs'}</span>
-          </a>
-        </li>
-      </ul>
+      <div className="sidebar-navigation sidebar-navigation-bottom  px-4 py-2 ">
+        <ul>
+          <li className="relative">
+            <a
+              target="_blank"
+              href={process.env.REACT_APP_DOCS_URL}
+              className={
+                'cursor-pointer duration-150 inline-flex items-center text-sm transition-colors w-full whitespace-nowrap'
+              }
+              rel="noreferrer">
+              <span className="block">
+                <Icon
+                  className="w-5 h-5"
+                  aria-hidden="true"
+                  icon={'DocsIcon'}
+                />
+              </span>
+              <span className="ml-4 sidebar-nav-item-desc">{'Docs'}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
