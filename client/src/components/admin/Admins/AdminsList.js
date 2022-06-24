@@ -26,6 +26,7 @@ import {
   EDIT,
   SMALL
 } from '../../shared/Constants';
+import ComponentHeader from '../../shared/ComponentHeader';
 
 function AdminsList({
   data,
@@ -78,102 +79,115 @@ function AdminsList({
   }, []);
 
   return (
-    <Paper className="rounded-sm bg-slate-50 dark:bg-slate-600 custom-paper">
-      <Toolbar onClickRefresh={refreshAdminList} onSearch={requestSearch} />
-      <TableContainer>
-        <Table sx={{ width: '100%' }} aria-labelledby={ADMINS}>
-          <TableHeader
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-          />
-          <TableBody>
-            {loading ? (
-              <TableLoader headCells={headCells} />
-            ) : admins && admins.length > 0 ? (
-              stableSort(admins, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow key={row.id}>
-                      <TableCell
-                        align={CENTER}
-                        style={{ textTransform: 'capitalize' }}
-                        className="dark:text-gray-200 dark:border-b-gray-500">
-                        {row.firstName}
-                      </TableCell>
-                      <TableCell
-                        align={CENTER}
-                        style={{ textTransform: 'capitalize' }}
-                        className="dark:text-gray-200 dark:border-b-gray-500">
-                        {row.lastName}
-                      </TableCell>
-                      <TableCell
-                        align={CENTER}
-                        className="dark:text-gray-200 dark:border-b-gray-500">
-                        {row.email}
-                      </TableCell>
-                      <TableCell
-                        align={CENTER}
-                        className="dark:text-gray-200 dark:border-b-gray-500">
-                        <Switch
-                          defaultChecked={row.enabled}
-                          onChange={(e) =>
-                            onHandleEnableChange(e.target.checked, row.id)
-                          }
-                          className="text-blue-600 dark:text-blue-300"
-                        />
-                      </TableCell>
-                      <TableCell
-                        align={CENTER}
-                        className="dark:text-gray-200 dark:border-b-gray-500">
-                        <div className="flex items-center justify-center">
-                          <Tooltip title="Edit Admin">
-                            <div>
-                              {' '}
-                              <IconButton
-                                aria-label={EDIT}
-                                size={SMALL}
-                                onClick={() => onClickEdit(row)}
-                                className="dark:text-blue-600">
-                                <EditIcon className="h-5 w-5 text-blue-600 dark:text-blue-300" />
-                              </IconButton>
-                            </div>
-                          </Tooltip>
-                          <Tooltip title="Resend Email">
-                            <div>
-                              <IconButton
-                                aria-label={EDIT}
-                                size={SMALL}
-                                onClick={() => onResentInvitation(row.id)}
-                                className="dark:text-blue-600">
-                                <BiRevision className="h-6 w-6 text-blue-600 dark:text-blue-300" />
-                              </IconButton>
-                            </div>
-                          </Tooltip>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-            ) : (
-              <EmptyTableRow headCells={headCells} />
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        className="dark:text-gray-300"
-        rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-        component="div"
-        count={admins.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+    <>
+      <div className="">
+        <ComponentHeader
+          data={admins}
+          setData={setTempAdmin}
+          page={page}
+          count={admins.length}
+          rowsPerPage={rowsPerPage}
+          setPage={setPage}
+          onSearch={requestSearch}
+        />
+      </div>
+
+      <Paper className="rounded-sm bg-slate-50 dark:bg-slate-600 custom-paper">
+        <TableContainer>
+          <Table sx={{ width: '100%' }} aria-labelledby={ADMINS}>
+            <TableHeader
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              headCells={headCells}
+            />
+            <TableBody>
+              {loading ? (
+                <TableLoader headCells={headCells} />
+              ) : admins && admins.length > 0 ? (
+                stableSort(admins, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell
+                          align={CENTER}
+                          style={{ textTransform: 'capitalize' }}
+                          className="dark:text-gray-200 dark:border-b-gray-500">
+                          {row.firstName}
+                        </TableCell>
+                        <TableCell
+                          align={CENTER}
+                          style={{ textTransform: 'capitalize' }}
+                          className="dark:text-gray-200 dark:border-b-gray-500">
+                          {row.lastName}
+                        </TableCell>
+                        <TableCell
+                          align={CENTER}
+                          className="dark:text-gray-200 dark:border-b-gray-500">
+                          {row.email}
+                        </TableCell>
+                        <TableCell
+                          align={CENTER}
+                          className="dark:text-gray-200 dark:border-b-gray-500">
+                          <Switch
+                            defaultChecked={row.enabled}
+                            onChange={(e) =>
+                              onHandleEnableChange(e.target.checked, row.id)
+                            }
+                            className="text-blue-600 dark:text-blue-300"
+                          />
+                        </TableCell>
+                        <TableCell
+                          align={CENTER}
+                          className="dark:text-gray-200 dark:border-b-gray-500">
+                          <div className="flex items-center justify-center">
+                            <Tooltip title="Edit Admin">
+                              <div>
+                                {' '}
+                                <IconButton
+                                  aria-label={EDIT}
+                                  size={SMALL}
+                                  onClick={() => onClickEdit(row)}
+                                  className="dark:text-blue-600">
+                                  <EditIcon className="h-5 w-5 text-blue-600 dark:text-blue-300" />
+                                </IconButton>
+                              </div>
+                            </Tooltip>
+                            <Tooltip title="Resend Email">
+                              <div>
+                                <IconButton
+                                  aria-label={EDIT}
+                                  size={SMALL}
+                                  onClick={() => onResentInvitation(row.id)}
+                                  className="dark:text-blue-600">
+                                  <BiRevision className="h-6 w-6 text-blue-600 dark:text-blue-300" />
+                                </IconButton>
+                              </div>
+                            </Tooltip>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+              ) : (
+                <EmptyTableRow headCells={headCells} />
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          className="dark:text-gray-300"
+          rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+          component="div"
+          count={admins.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </>
   );
 }
 

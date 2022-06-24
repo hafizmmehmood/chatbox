@@ -12,6 +12,18 @@ import {
 import FormModal from '../../shared/Modals/FormModal';
 import AdminForm from './AdminForm';
 import { success, error } from '../../shared/Helpers';
+import {
+  _SUCCESS,
+  _ERROR,
+  _ASC,
+  _DESC,
+  _ROLE,
+  _NAME,
+  _NEW,
+  _ADMIN,
+  ADMINS
+} from '../../../utils/Constants';
+import FloatingButton from '../../shared/Button-float'
 
 function Admins() {
   const { data, loading, setData, refreshData } = useFetch(GetAdmins);
@@ -103,7 +115,12 @@ function Admins() {
 
   return (
     <div>
-      <AdminsHeader onClick={openModal} />
+      <FloatingButton
+        type={_ADMIN}
+        currencyType={_ADMIN}
+        refetch={refreshAdminList}
+        handleModalOpen={openModal}
+      />
       <AdminsList
         data={data}
         loading={loading}

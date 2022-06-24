@@ -7,6 +7,8 @@ import Dropdown from '../../shared/Dropdown';
 import { serverUrl } from '../../../config/config';
 import SidebarHeader from '../Sidebar/SidebarHeader';
 import MenuBarContent from '../MenuBar';
+import Notificatios from '../Notifications';
+import { GetActiveTabHeading } from '../../../routes/sidebar';
 
 function Header({ menuType, toggleSideBar }) {
   const org = JSON.parse(localStorage.getItem('organization'));
@@ -14,6 +16,8 @@ function Header({ menuType, toggleSideBar }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const menuPosition = menuType === 'bottom' || menuType === 'top';
   const isTopMenu = menuType === 'top';
+  const activeTabHeading = GetActiveTabHeading();
+
   return (
     <header
       className={`z-40 py-4 bg-white dark:bg-gray-800 main-header ${
@@ -58,7 +62,21 @@ function Header({ menuType, toggleSideBar }) {
         <div className="dark:text-gray-400 duration-500 ease-in-out font-medium pr-4 rounded-full text-gray-500 text-xl transition">
           {org && org.organizationName}
         </div>
-        <div className='flex'>
+
+        <p className="flex-1 text-light-black dark:text-white font-bold p-0 m-0 min-w-fit active-tab-heading">
+          {activeTabHeading && activeTabHeading[1] ? (
+            <>
+              {activeTabHeading[0]} {' > '}{' '}
+              <span className="text-light-purple">{activeTabHeading[1]}</span>
+            </>
+          ) : (
+            activeTabHeading[0]
+          )}
+        </p>
+        <div className="flex items-center">
+          <div className="flex items-center justify-center">
+            <Notificatios />
+          </div>
           <div className="transition duration-500 ease-in-out rounded-full p-2">
             {theme === 'dark' ? (
               <FaSun

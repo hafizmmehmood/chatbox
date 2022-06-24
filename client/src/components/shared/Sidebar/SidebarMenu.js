@@ -1,7 +1,7 @@
 import React from 'react';
 import routes from '../../../routes/sidebar';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { NavLink, Route, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import * as Icons from '../../../icons';
 import SidebarSubmenu from './SidebarSubmenu';
 import clsx from 'clsx';

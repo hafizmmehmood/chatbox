@@ -1,10 +1,6 @@
-/**
- * ⚠ These are used just to render the Sidebar!
- * You can include any link here, local or external.
- *
- * If you're looking to actual Router routes, go to
- * `routes/index.js`
- */
+
+import { useHistory } from 'react-router-dom';
+
 const routes = [
   {
     path: '/dashboard', // the url
@@ -25,37 +21,17 @@ const routes = [
     path: '/abc',
     icon: 'OutlinePersonIcon',
     name: 'Abc'
-  },
-  {
-    path: '/transaction', // the url
-    icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Transaction' // name that appear in Sidebar
-  },
-  {
-    path: '/admins',
-    icon: 'OutlinePersonIcon',
-    name: 'Admins'
-  },
-  {
-    path: '/abc',
-    icon: 'OutlinePersonIcon',
-    name: 'Abc'
-  },
-  {
-    path: '/transaction', // the url
-    icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Transaction' // name that appear in Sidebar
-  },
-  {
-    path: '/admins',
-    icon: 'OutlinePersonIcon',
-    name: 'Admins'
-  },
-  {
-    path: '/abc',
-    icon: 'OutlinePersonIcon',
-    name: 'Abc'
   }
 ];
+
+export const GetActiveTabHeading = () => {
+  const history = useHistory();
+  const activeTab = routes.filter((item) =>
+    item.path.includes(history.location.pathname)
+  );
+  return activeTab && activeTab[0]
+    ? [activeTab[0].name, activeTab[0].subName]
+    : [];
+};
 
 export default routes;

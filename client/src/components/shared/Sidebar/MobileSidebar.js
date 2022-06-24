@@ -7,7 +7,7 @@ function MobileSidebar() {
   return (
     <>
       <aside
-        className={`toggle-sidebar fixed inset-y-0 flex-shrink-0 mt-16 overflow-y-auto bg-white dark:bg-gray-800 lg:w-0 z-50 ${
+        className={`sidebar-cont toggle-sidebar fixed inset-y-0 flex-shrink-0 mt-16 overflow-y-auto lg:w-0 z-50 ${
           isSidebarOpen ? 'w-64' : 'w-0'
         }`}>
         <SidebarContent />
