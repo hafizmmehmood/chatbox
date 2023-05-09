@@ -182,7 +182,7 @@ function AdminsList({
           component="div"
           count={admins.length}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={!admins || admins.length <= 0 ? 0 : page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />

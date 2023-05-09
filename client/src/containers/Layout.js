@@ -1,6 +1,6 @@
 import React, {useState, useContext, Suspense, useEffect, lazy,useCallback } from 'react';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
-import { routes } from '../routes';
+import { useLocation } from 'react-router-dom';
+import PageRoutes from '../routes';
 import Sidebar from '../components/shared/Sidebar';
 import Header from '../components/shared/Header';
 import Main from '../containers/Main';
@@ -9,7 +9,6 @@ import { SidebarContext } from '../context/SidebarContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Page404 = lazy(() => import('../pages/404'));
 
 function Layout() {
   const menuType = "left";
@@ -49,21 +48,7 @@ function Layout() {
         />
         <Main menuType = {menuType} toggleSideBar={toggleSideBar}>
           <Suspense fallback={<ThemedSuspense />}>
-            <Switch>
-              {routes.map((route, i) => {
-                return route.component ? (
-                  <Route
-                    key={i}
-                    exact={true}
-                    path={`${route.path}`}
-                    render={(props) => <route.component {...props} />}
-                  />
-                ) : null;
-              })}
-              <Redirect exact from="/" to="/dashboard" />
-              <Redirect to="/dashboard" />
-              <Route component={Page404} />
-            </Switch>
+            <PageRoutes />
           </Suspense>
         </Main>
       </div>

@@ -60,7 +60,7 @@ const Notifications = (props) => {
         className="notification-card-cont"
         anchorEl={anchorEl}
         keepMounted
-        getContentAnchorEl={null}
+        // getContentAnchorEl={null}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         open={Boolean(anchorEl)}

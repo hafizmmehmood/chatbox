@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const morgan = require('morgan');
 const app = express();
+const server = http.createServer(app);
 const connectDB = require('./config/database');
 require('./models');
 const Port =
@@ -68,7 +70,7 @@ app.get(['*', '/api/*'], function (req, res) {
 });
 
 //server port listining
-app.listen(Port, function () {
+server.listen(Port, function () {
   console.log(`Listening on port ${Port}!`);
 });
 module.exports = app;

@@ -12,9 +12,10 @@ import Logout from '@mui/icons-material/Logout';
 import { NavLink } from 'react-router-dom';
 import { avatarIconUrl } from '../../../icons';
 import { FaChevronDown } from 'react-icons/fa';
+import { encryptedLocalStorage } from '../../../config/utils';
 
 export default function AccountMenu() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = encryptedLocalStorage.getItem('user');
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -107,7 +108,6 @@ export default function AccountMenu() {
         <Divider />
         <MenuItem>
           <NavLink
-            exact
             to="/settings"
             className="w-full flex items-center text-gray-800 hover:text-gray-800 no-underline">
             <ListItemIcon>

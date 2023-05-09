@@ -1,28 +1,33 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ImageLight from '../../../assets/img/login-office.jpeg';
 import ImageDark from '../../../assets/img/login-office-dark.jpeg';
-import { AuthLogin } from '../../../services/auth';
 import { Formik } from 'formik';
 import LoginForm from './loginForm';
 import { LoginInitialValues, LoginSchema } from './helpers';
 import { success, error } from '../../shared/Helpers';
+import { useDispatch } from 'react-redux';
+import { setLocalStorage } from '../../../config/features/auth/authSlice'
+import { useUserLoginMutation } from '../../../config/features/auth/authApi';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
+  const [userLogin, { isLoading, isSuccess, isError, error: loginError, data}] = useUserLoginMutation();
   const SubmitForm = useCallback(data => {
-    setLoading(true);
-    AuthLogin(data).then(res => {
-      if (res.status === 200) {
-        success(res.message);
-        window.location = '/dashboard';
-      } else {
-        error(res.message);
-      }
-      setLoading(false);
-    });
+    userLogin(data);
   }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (isSuccess) {
+        dispatch(setLocalStorage(data));
+        success(data.message);
+        //navigate('/dashboard');
+      } else if (isError) {
+        error(loginError.error || loginError.data.message);
+      }
+    }
+  }, [isLoading, isSuccess, isError]);
 
   return (
     <>
@@ -58,8 +63,7 @@ const Login = () => {
                       return (
                         <>
                           <LoginForm
-                            loading={loading}
-                            setLoading={setLoading}
+                            loading={isLoading}
                             {...props}
                           />
                         </>

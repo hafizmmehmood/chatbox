@@ -17,7 +17,8 @@ export const GetAdmins = async () => {
         return {
           ...responseData,
           status: 200,
-          data: response.data
+          data: response.data,
+          message: response.message,
         };
       } else {
         return {
@@ -72,14 +73,14 @@ export const CreateAdmin = async (formData) => {
     });
 };
 
-export const UpdateAdmin = async (formData, id) => {
+export const UpdateAdmin = async ({formData, id}) => {
   const responseData = {
     loading: false,
     status: 210,
     message: 'Something went wrong, Please try again.'
   };
   const headers = await getAuthHeader();
-
+  
   return instance
     .put('/admin/admins/' + id, formData, headers)
     .then((response) => {

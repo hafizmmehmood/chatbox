@@ -201,3 +201,33 @@ exports.confirmation = async (req) => {
     })();
   });
 };
+
+/**
+ * @Route Post /auth/refresh-token
+ * @dev Refresh Token.
+ */
+exports.refreshToken = (req) => {
+  return new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        let user = await findUserByEmail(req.jwt.email);
+        if (!user) {
+          return reject({
+            code: HttpStatusCode.BAD_REQUEST,
+            message: GenericMessages.ACCOUNT_NOT_FOUND
+          });
+        }
+        return resolve({
+          code: HttpStatusCode.OK,
+          data: user.toAuthJSON(),
+          message: AuthMessages.TOKEN_GENERATED
+        });
+      } catch (error) {
+        return reject({
+          code: HttpStatusCode.INTERNAL_SERVER_ERROR,
+          message: GenericMessages.INTERNAL_SERVER_ERROR
+        });
+      }
+    })();
+  });
+};

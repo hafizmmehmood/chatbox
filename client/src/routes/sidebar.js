@@ -1,5 +1,5 @@
 
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const routes = [
   {
@@ -25,9 +25,9 @@ const routes = [
 ];
 
 export const GetActiveTabHeading = () => {
-  const history = useHistory();
+  const location = useLocation();
   const activeTab = routes.filter((item) =>
-    item.path.includes(history.location.pathname)
+    item.path.includes(location.pathname)
   );
   return activeTab && activeTab[0]
     ? [activeTab[0].name, activeTab[0].subName]

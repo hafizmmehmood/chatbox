@@ -21,7 +21,7 @@ const ComponentHeader = ({
   pendingStatus
 }) => {
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage-1);
   };
 
   return (
@@ -49,7 +49,7 @@ const ComponentHeader = ({
       ) : null}
       <div className="w-full">
         <Grid container className="py-3 mb-0 mt-0">
-          <Grid item md={2} sm={6} xs={12} spacing={2}>
+          <Grid item md={2} sm={6} xs={12} >
             <div className="pr-3 w-full">
               <Autocomplete
                 id="group-by"
@@ -82,7 +82,7 @@ const ComponentHeader = ({
               />
             </div>
           </Grid>
-          <Grid item md={2} sm={6} xs={12} spacing={2}>
+          <Grid item md={2} sm={6} xs={12} >
             <div className="pr-3">
               <Autocomplete
                 id="filter-by"
@@ -119,8 +119,9 @@ const ComponentHeader = ({
           <Grid item md={4} sm={6} xs={12}>
             <div className="p-0">
               <TextField
+              size='small'
                 fullWidth
-                className="search-by m-0"
+                className="search-by !m-0"
                 id="margin-normal"
                 margin="normal"
                 InputProps={{
@@ -143,8 +144,8 @@ const ComponentHeader = ({
             <div className="flex align-center justify-end w-full h-full">
               <Pagination
                 className="pagination"
-                count={count || (getCount && getCount(data.length || 0, rowsPerPage))}
-                page={page}
+                count={Math.ceil(count / rowsPerPage)}
+                page={page+1}
                 onChange={handlePageChange}
                 siblingCount={0}
                 boundaryCount={1}

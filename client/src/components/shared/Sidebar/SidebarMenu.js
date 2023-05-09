@@ -30,13 +30,12 @@ function SidebarMenu() {
                 <li
                   key={route.name}>
                   <NavLink
-                    exact
                     to={route.path}
                     className={clsx(
                       'flex items-center w-full text-sm font-semibold transition-colors duration-150  whitespace-nowrap',
                       location.pathname.includes(route.path) && 'active'
                     )}
-                    activeClassName="text-indigo-600 dark:text-gray-100">
+                    >
                     <span className="block">
                       <Icon
                         className="w-5 h-5"
