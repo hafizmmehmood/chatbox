@@ -34,6 +34,8 @@ serviceRouter.use(
   [checkAuth, isSuperAdmin],
   require('../services/admin/admins')
 );
+
+serviceRouter.use("/products",checkAuth, require('../services/products'));
 ///////// =====
 /**
  * End
