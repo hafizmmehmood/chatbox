@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import AdminsList from './AdminsList';
-import AdminsHeader from './AdminsHeader';
-import useFetch from '../../../hooks/useFetch';
 import {
   GetAdmins,
   CreateAdmin,
@@ -12,13 +10,59 @@ import {
 import FormModal from '../../shared/Modals/FormModal';
 import AdminForm from './AdminForm';
 import { success, error } from '../../shared/Helpers';
+import {
+
+  _ADMIN,
+} from '../../../utils/Constants';
+import FloatingButton from '../../shared/Button-float'
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 function Admins() {
-  const { data, loading, setData, refreshData } = useFetch(GetAdmins);
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
-  const [adminCreateLoading, setAdminCreateLoading] = useState(false);
   const [actionState, setActionState] = useState(false);
   const [admin, setAdmin] = useState(null);
+
+  const handleSuccess = (resp, type) => {
+    const { status, message } = resp;
+    if(status === 200) {
+      if(type !== 'getAdmins') {
+        success(message);
+        queryClient.invalidateQueries('admins');
+        //refetchAdmins();
+      }
+    } else {
+      error(message);
+    }
+    closeModal();
+  }
+  const handleError = (error) => {
+    console.log(error)
+    error(error.message);
+  }
+
+  const { data: { data } = [], isLoading, refetch: refetchAdmins } = useQuery('admins', GetAdmins, {
+    onSuccess: (res)=>handleSuccess(res, 'getAdmins'),
+    onError: handleError,
+  });
+  const { mutate: createAdmin, isLoading: adminCreateLoading } = useMutation(CreateAdmin,  {
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
+  const { mutate: updateAdmin, isLoading: adminUpdateLoading } = useMutation(UpdateAdmin, {
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
+
+  const { mutate: disableAdmin } = useMutation(EnableOrDisableAdmin, {
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
+
+  const { mutate: resentInvitation } = useMutation(ResentInvitation, {
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
 
   const closeModal = useCallback(() => {
     setActionState(false);
@@ -39,74 +83,38 @@ function Admins() {
   }, []);
 
   const onHandleEnableChange = async (enabled, id) => {
-    const resp = await EnableOrDisableAdmin({ id: id, enabled: enabled });
-    if (resp.status === 200) {
-      success(resp.message);
-    } else {
-      error(resp.message);
-    }
+    disableAdmin({ id: id, enabled: enabled });
   };
 
   const onResentInvitation = async (id) => {
-    const resp = await ResentInvitation(id);
-    if (resp.status === 200) {
-      success(resp.message);
-    } else {
-      error(resp.message);
-    }
+    resentInvitation(id);
   };
 
   const refreshAdminList = () => {
-    refreshData();
+    refetchAdmins();
   };
 
   const onHandleSubmit = async (values, handles) => {
-    setAdminCreateLoading(true);
     if (!actionState) {
-      const resp = await CreateAdmin(values);
-      if (resp.status === 200) {
-        setAdminCreateLoading(false);
-        setData((prev) => [resp.data, ...prev]);
-        success(resp.message);
-        handles.resetForm();
-        closeModal();
-      } else {
-        setAdminCreateLoading(false);
-        error(resp.message);
-      }
+      createAdmin(values);
+      handles.resetForm();
     } else {
-      const resp = await UpdateAdmin(values, values.id);
-      if (resp.status === 200) {
-        setAdminCreateLoading(false);
-        setData((prev) =>
-          prev.map((r) =>
-            r.id === resp.data.id
-              ? {
-                  id: resp.data.id,
-                  firstName: resp.data.firstName,
-                  lastName: resp.data.lastName,
-                  email: resp.data.email,
-                  enabled: resp.data.enabled
-                }
-              : r
-          )
-        );
-        success(resp.message);
-        handles.resetForm();
-        closeModal();
-      } else {
-        setAdminCreateLoading(false);
-        error(resp.message);
-      }
+      updateAdmin({formData: values, id: values.id});
+      handles.resetForm();
     }
   };
 
   return (
     <div>
-      <AdminsHeader onClick={openModal} />
+      <FloatingButton
+        type={_ADMIN}
+        currencyType={_ADMIN}
+        refetch={refreshAdminList}
+        handleModalOpen={openModal}
+      />
       <AdminsList
         data={data}
-        loading={loading}
+        loading={isLoading}
         onClickEdit={onClickEdit}
         onHandleEnableChange={onHandleEnableChange}
         onResentInvitation={onResentInvitation}
@@ -119,7 +127,7 @@ function Admins() {
         title={!actionState ? 'Create Admin' : 'Edit Admin'}>
         <AdminForm
           onHandleSubmit={onHandleSubmit}
-          loading={adminCreateLoading}
+          loading={adminCreateLoading || adminUpdateLoading}
           onClose={closeModal}
           actionState={actionState}
           admin={admin}

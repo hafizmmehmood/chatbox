@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
 export const LoginInitialValues = {
   email: '',
-  password: ''
+  password: '',
+  rememberMe: false
 };
 export const ResetPassworfInitialValues = {
   email: ''

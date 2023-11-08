@@ -4,12 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)'
+        'primary': '#292929',
+        'secondary': '#000'
       },
       backgroundColor: {
-        primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)'
+        'primary': 'var(--color-primary)',
+        'secondary': 'var(--color-secondary)'
       }
     }
   },

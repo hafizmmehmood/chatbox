@@ -1,8 +1,11 @@
 import { isArray, isString } from 'lodash';
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = process.env.REACT_APP_LOCAL_STORAGE_SECRET_KEY;
 
 export const getAuthHeader = () => {
   return new Promise(resolve => {
-    const token = localStorage.getItem('token');
+    const token = encryptedLocalStorage.getItem('token');
     if (token) {
       resolve({
         headers: {
@@ -35,3 +38,18 @@ export const ParseError = error => {
   }
   return err;
 };
+
+export const encryptedLocalStorage = (() => {
+  return {
+    setItem: (name,data)=> {
+      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
+      localStorage.setItem(name, encrypted);
+    },
+    getItem: (name) => {
+      const encrypted = localStorage.getItem(name);
+      if(!encrypted) return null;
+      const decrypted = CryptoJS.AES.decrypt(encrypted, SECRET_KEY).toString(CryptoJS.enc.Utf8);
+      return JSON.parse(decrypted);
+    }
+  }
+})();

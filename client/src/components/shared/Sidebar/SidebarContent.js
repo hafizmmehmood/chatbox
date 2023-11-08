@@ -1,90 +1,65 @@
 import React from 'react';
-import routes from '../../../routes/sidebar';
-import { NavLink, Route, useLocation } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import * as Icons from '../../../icons';
-import SidebarSubmenu from './SidebarSubmenu';
-import { serverUrl } from '../../../config/config';
-import clsx from 'clsx';
+import SidebarMenu from './SidebarMenu';
+import SidebarHeader from './SidebarHeader';
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon];
   return <Icon {...props} />;
 }
 
-const org = JSON.parse(localStorage.getItem('organization'));
-
-function SidebarContent() {
-  const location = useLocation();
-  const role = localStorage.getItem('role');
-  const Routes =
-    role && role !== 'super'
-      ? routes.filter((r) => r.path !== '/admins')
-      : routes;
+function SidebarContent({ toggleSideBar, HandleToggleSideBar }) {
   return (
-    <div className="text-gray-500 dark:text-gray-400">
-      <div className="flex p-3 px-6">
-        <a
-          className="text-lg font-bold text-gray-800 dark:text-gray-200"
-          href="/dashboard">
-          {org && org.logoUrl ? (
-            <span className="flex items-center">
-              <img
-                src={serverUrl + '/' + org?.logoUrl}
-                alt="logo"
-                className="w-12 h-12 mr-2"
-              />{' '}
-              <span>
-                {org && org.organizationName ? org.organizationName : 'Amotius'}
-              </span>
+    <div className="flex flex-col h-full w-full text-gray-500 dark:text-gray-400 relative">
+      <div className="sidebar-header flex p-4 overflow-hidden">
+        <SidebarHeader />
+        <div className="absolute -right-4 z-50 ${toggleSideBar toggle-sidebar-btn">
+          <Tooltip
+            title={toggleSideBar ? 'Collapse sidebar' : 'Expand sidebar'}
+            className="z-100"
+            placement="right"
+            arrow>
+            <span
+              className="block border bg-white  border-black p-3 rounded-full cursor-pointer"
+              onClick={HandleToggleSideBar}>
+              {toggleSideBar ? (
+                <FaArrowRight className="text-black text-sm " />
+              ) : (
+                <FaArrowLeft className="text-black text-sm " />
+              )}
             </span>
-          ) : (
-            <span className="flex items-center">
-              <img src={'/logo.svg'} alt="logo" className="w-12 h-12 mr-2" />{' '}
-              <span className="text-blue-700 dark:text-blue-200">Amotius</span>
-            </span>
-          )}
-        </a>
+          </Tooltip>
+        </div>
       </div>
-      <ul className="mt-2">
-        {Routes.map((route) =>
-          route.routes ? (
-            <SidebarSubmenu route={route} key={route.name} />
-          ) : (
-            <li
+
+      <div className="sidebar-navigation-cont h-full overflow-y-auto overflow-x-visible">
+        <SidebarMenu />
+      </div>
+
+      <div className="sidebar-navigation sidebar-navigation-bottom  px-4 py-2 ">
+        <ul>
+          <li className="relative">
+            <a
+              target="_blank"
+              href={process.env.REACT_APP_DOCS_URL}
               className={
-                location.pathname.includes(route.path)
-                  ? 'relative px-6 py-3 bg-nav-gradient text-indigo-700' +
-                    (route.seperator ? ' border-top-1' : '')
-                  : 'relative px-6 py-3' +
-                    (route.seperator ? ' border-top-1' : '')
+                'cursor-pointer duration-150 inline-flex items-center text-sm transition-colors w-full whitespace-nowrap'
               }
-              key={route.name}>
-              <NavLink
-                exact
-                to={route.path}
-                className={clsx(
-                  'inline-flex items-center w-full text-sm font-semibold transition-colors duration-150  hover:text-indigo-500 dark:hover:text-gray-200',
-                  location.pathname.includes(route.path)
-                    ? 'text-indigo-700'
-                    : 'text-gray-400'
-                )}
-                activeClassName="text-indigo-600 dark:text-gray-100">
-                <Route path={route.path} exact={route.exact}>
-                  <span
-                    className="absolute inset-y-0 left-0 w-1 bg-indigo-500 rounded-tr-lg rounded-br-lg"
-                    aria-hidden="true"></span>
-                </Route>
+              rel="noreferrer">
+              <span className="block">
                 <Icon
                   className="w-5 h-5"
                   aria-hidden="true"
-                  icon={route.icon}
+                  icon={'DocsIcon'}
                 />
-                <span className="ml-4">{route.name}</span>
-              </NavLink>
-            </li>
-          )
-        )}
-      </ul>
+              </span>
+              <span className="ml-4 sidebar-nav-item-desc">{'Docs'}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

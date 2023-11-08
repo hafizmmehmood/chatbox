@@ -44,7 +44,8 @@ exports.AuthMessages = {
     'Reset password email sent successfully, Please Check your email!',
   CONFIRMATION_TOKEN_INVALID: 'Confirmation token in invalid!',
   ACCOUNT_VERIFIED: 'Your account has been verified successfully!',
-  ACCOUNT_NOT_VERIFIED: 'Your account has not been verified successfully!'
+  ACCOUNT_NOT_VERIFIED: 'Your account has not been verified successfully!',
+  TOKEN_GENERATED: 'Access token generated successfully!'
 };
 exports.UserMessages = {
   FAILED_TO_SAVE_USER: 'Failed to create user account!',

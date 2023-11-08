@@ -8,8 +8,8 @@ export const TEXT = 'text';
 export const ASC = 'asc';
 export const DESC = 'desc';
 
-export const ROWS_PER_PAGE = 25;
-export const ROWS_PER_PAGE_OPTIONS = [25, 50, 75];
+export const ROWS_PER_PAGE = 5;
+export const ROWS_PER_PAGE_OPTIONS = [5, 25, 50];
 
 export const CENTER = 'center';
 export const LEFT = 'left';

@@ -45,7 +45,7 @@ UserSchema.methods.validatePassword = function (password) {
   return this.password === hash;
 };
 
-UserSchema.methods.generateJWT = function () {
+UserSchema.methods.generateJWT = function (type) {
   return JWT.sign({
     id: this._id,
     email: this.email,
@@ -53,14 +53,15 @@ UserSchema.methods.generateJWT = function () {
     lastName: this.lastName,
     suspended: this.suspended,
     role: this.role
-  });
+  },{tokenType: type});
 };
 
 UserSchema.methods.toAuthJSON = function () {
   return {
     id: this._id,
     email: this.email,
-    token: this.generateJWT(),
+    token: this.generateJWT('access'),
+    refreshToken: this.generateJWT('refresh'),
     firstName: this.firstName,
     lastName: this.lastName,
     role: this.role

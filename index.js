@@ -1,16 +1,18 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const morgan = require('morgan');
 const app = express();
+const server = http.createServer(app);
 const connectDB = require('./config/database');
 require('./models');
 const Port =
   process.env.NODE_ENV && process.env.NODE_ENV === 'test'
-    ? process.env.TEST_PORT || 6001
-    : process.env.PORT || 6000;
+    ? process.env.TEST_PORT || 4001
+    : process.env.PORT || 4000;
 // Api documentations
 const YAML = require('yamljs');
 const swaggerJsDocs = YAML.load('./nodeApiDocs.yaml');
@@ -68,7 +70,7 @@ app.get(['*', '/api/*'], function (req, res) {
 });
 
 //server port listining
-app.listen(Port, function () {
+server.listen(Port, function () {
   console.log(`Listening on port ${Port}!`);
 });
 module.exports = app;

@@ -8,7 +8,7 @@ import {
   _SUBMIT
 } from '../../../utils/Constants';
 import { EMAIL, PASSWORD, LOGIN } from './constants';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
 
 const LoginForm = (props) => {
   const { touched, errors, loading, values, handleSubmit, handleChange } =
@@ -44,6 +44,20 @@ const LoginForm = (props) => {
           onChange={handleChange}
           value={values.password}
           label={PASSWORD}
+        />
+      </div>
+
+      <div className="mb-3">
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={values.rememberMe}
+              onChange={handleChange}
+              name="rememberMe"
+              color="primary"
+            />
+          }
+          label="Remember me?"
         />
       </div>
 

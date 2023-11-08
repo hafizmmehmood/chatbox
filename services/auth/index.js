@@ -7,11 +7,17 @@ const {
   confirmUserValidator
 } = require('./validator');
 const { checkValidation } = require('../../middlewares/validator');
+const { checkRefreshToken } = require('../../middlewares/checkRefreshToken')
 const serviceRouter = express.Router();
 
 serviceRouter.post('/login', [loginValidator, checkValidation], (req, res) =>
   routes['apiRoute'](req, res, 'authLogin')
 );
+
+serviceRouter.post('/refresh-token', [checkRefreshToken], (req, res) =>
+  routes['apiRoute'](req, res, 'refreshToken')
+);
+
 serviceRouter.post(
   '/resetPassword',
   [resetValidator, checkValidation],

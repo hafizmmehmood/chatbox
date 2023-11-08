@@ -1,21 +1,31 @@
 import React, { lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
+import { useSelector } from 'react-redux';
+import PageRoutes from './routes'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Layout = lazy(() => import('./containers/Layout'));
-const AuthRoutes = lazy(() => import('./routes/AuthRoutes'));
-const Confirmation = lazy(() => import('./pages/auth/Confirmation'));
 
-// get the authentication token from local storage if it exists
-const token = localStorage.getItem('token');
 
 function App() {
+   const { token } = useSelector((state) => state.auth);
   return (
     <Router>
       <AccessibleNavigationAnnouncer />
-      <Switch>
-        <Route path="/confirmation" component={Confirmation} />
-        <Route path="/" component={token ? Layout : AuthRoutes} />
-      </Switch>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        theme="colored"
+        pauseOnHover
+      />
+      {token ? <Layout /> : <PageRoutes />}
     </Router>
   );
 }

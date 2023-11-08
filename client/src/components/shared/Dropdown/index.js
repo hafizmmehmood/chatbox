@@ -10,9 +10,12 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { NavLink } from 'react-router-dom';
+import { avatarIconUrl } from '../../../icons';
+import { FaChevronDown } from 'react-icons/fa';
+import { encryptedLocalStorage } from '../../../config/utils';
 
 export default function AccountMenu() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = encryptedLocalStorage.getItem('user');
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -28,7 +31,7 @@ export default function AccountMenu() {
     window.location = '/login';
   };
   return (
-    <React.Fragment>
+    <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -38,9 +41,17 @@ export default function AccountMenu() {
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}>
-            <Avatar sx={{ width: 32, height: 32, background: '#6b7280' }}>
-              {user && user.firstName ? user.firstName[0].toUpperCase() : '?'}
-            </Avatar>
+            <span className="flex items-center justify-center">
+              <span className="w-10 h-10 rounded">
+                <img
+                  src={user && user.imageUrl ? user.imageUrl : avatarIconUrl}
+                  alt="Profile"
+                />
+              </span>
+              <span className="ml-1">
+                <FaChevronDown className="text-xs dark:text-gray-400" />
+              </span>
+            </span>
           </IconButton>
         </Tooltip>
       </Box>
@@ -93,13 +104,10 @@ export default function AccountMenu() {
             </div>
           </div>
         </MenuItem>
-        {/* <MenuItem>
-          <Avatar /> <span className="ml-2">{user?.email}</span>
-        </MenuItem> */}
+
         <Divider />
         <MenuItem>
           <NavLink
-            exact
             to="/settings"
             className="w-full flex items-center text-gray-800 hover:text-gray-800 no-underline">
             <ListItemIcon>
@@ -117,6 +125,6 @@ export default function AccountMenu() {
           </div>
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </>
   );
 }
