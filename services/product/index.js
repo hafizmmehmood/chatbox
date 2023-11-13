@@ -1,7 +1,6 @@
 const express = require("express");
 const prodRouter = express.Router();
 const routes = require("./routes/index");
-const { checkAuth } = require("../../middlewares/checkAuth");
 
 prodRouter.get("/getEmbedding", (req, res) =>
     routes["productRoute"](req, res, "getEmbedding")
@@ -29,9 +28,10 @@ prodRouter.get('/searchProdWithLC', (req, res) =>
     routes["productRoute"](req, res, "searchProdWithLC")
 );
 
-prodRouter.get('/search',[checkAuth], (req, res) =>
-  routes['productRoute'](req, res, 'searchProductFunc')
+prodRouter.get('/searchRunnables', (req, res) =>
+    routes["productRoute"](req, res, "searchRunnables")
 );
+
 
 
 module.exports = prodRouter;
