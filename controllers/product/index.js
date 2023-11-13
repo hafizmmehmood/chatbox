@@ -6,7 +6,7 @@ const vectorAggregation = require("../../helper.js/vectorAggregation");
 const { getOpenAiEmbedding, chatCompletionWithFuncs, chatWithMessages } = require("../../libs/services/gpt");
 const { createProduct } = require("../../libs/services/products");
 const Product = require("../../models/Product");
-
+const Chats = require("../../models/Chats")
 const { OpenAI } = require("langchain/llms/openai");
 const { MongoDBAtlasVectorSearch } = require("langchain/vectorstores/mongodb_atlas");
 const { RetrievalQAChain, ConversationalRetrievalQAChain } = require("langchain/chains");
@@ -242,7 +242,8 @@ const searchProdWithLC = async (req) => {
 const searchRunnables = async (req) => {
     return new Promise(async (resolve) => {
         try {
-            const { BufferMemory } = require("langchain/memory");
+            const userId = req.jwt.id;
+            // const { BufferMemory } = require("langchain/memory");
             const { MongoDBChatMessageHistory } = require("langchain/stores/message/mongodb");
             const { formatDocumentsAsString } = require("langchain/util/document");
             const { searchTerm, searchTerm2 } = req.query
@@ -251,18 +252,16 @@ const searchRunnables = async (req) => {
 
             const collection = client.db('chatbox').collection('products');
 
-            const sessionId = mongoose.Types.ObjectId('654b3e83ac54041275bb45b2');
-            const chatHistory = new MongoDBChatMessageHistory({
-                collection,
-                sessionId,
-            });
-
-            console.log("chatHistory", chatHistory)
-            const memory = new BufferMemory({
-                memoryKey: "chat_history",
-                returnMessages: true,
-                chatHistory,
-            });
+            // const sessionId = mongoose.Types.ObjectId('654b3e83ac54041275bb45b2');
+            // const chatHistory = new MongoDBChatMessageHistory({
+            //     collection,
+            //     sessionId,
+            // });
+            // const memory = new BufferMemory({
+            //     memoryKey: "chat_history",
+            //     returnMessages: true,
+            //     chatHistory,
+            // });
             const vectorStore = new MongoDBAtlasVectorSearch(
                 new OpenAIEmbeddings(),
                 {
@@ -272,31 +271,15 @@ const searchRunnables = async (req) => {
                     embeddingKey: "embedding",
                 }
             );
+            const retriever = vectorStore.asRetriever();
 
-            // const chain = ConversationalRetrievalQAChain.fromLLM(
-            //     llm,
-            //     vectorStore.asRetriever(),
-            //     {
-            //         memory,
-            //     }
-            // );
-
-
-
-            // chain.memory = memory;
-            // const res1 = await chain.invoke({
-            //     question: searchTerm
-            // });
 
             // await memory.saveContext({ input: searchTerm }, { output: res1.text });
 
-            const formatChatHistory = (human, ai, previousChatHistory
-            ) => {
+            const formatChatHistory = (human, ai, previousChatHistory) => {
                 const newInteraction = `Human: ${human}\nAI: ${ai}`;
-                if (!previousChatHistory) {
-                    return newInteraction;
-                }
-                return `${previousChatHistory}\n\n${newInteraction}`;
+                return newInteraction;
+
             };
 
             const questionPrompt = PromptTemplate.fromTemplate(
@@ -311,24 +294,17 @@ const searchRunnables = async (req) => {
                 Helpful Answer:`
             );
 
-            const retriever = vectorStore.asRetriever();
-
-
             const chain = RunnableSequence.from([
                 {
                     question: (input) => {
-                        console.log("++++++", input)
                         return input.question
                     },
                     chatHistory: (input) => {
-                        console.log("**********", input)
                         return input.chatHistory ?? ""
                     },
                     context: async (input) => {
                         const relevantDocs = await retriever.getRelevantDocuments(input.question);
-                        console.log("-----------------", relevantDocs)
                         const serialized = formatDocumentsAsString(relevantDocs);
-                        console.log("::::::::::::::::::", serialized)
                         return serialized;
                     },
                 },
@@ -337,21 +313,51 @@ const searchRunnables = async (req) => {
                 new StringOutputParser(),
             ]);
 
+            const oldChats = await Chats.findOne({ userId: userId })
+            var chatHist = []
+            if (oldChats) {
+                chatHist = oldChats.chats.map((item) => formatChatHistory(item.human, item.ai))
+            }
+
             const resultOne = await chain.invoke({
+                chatHistory: chatHist,
                 question: searchTerm,
             });
 
-            const resultTwo = await chain.invoke({
-                chatHistory: formatChatHistory(resultOne, searchTerm),
-                question: searchTerm2,
-            });
+            var result;
+            if (oldChats) {
+                result = await Chats.findOneAndUpdate(
+                    { userId: mongoose.Types.ObjectId(userId) },
+                    {
+                        $push: {
+                            chats: {
+                                human: searchTerm,
+                                ai: resultOne
+                            }
+                        }
+                    },
+                    { new: true }
+                )
+            }
+            else {
+                result = await Chats.create({
+                    userId: userId,
+                    chats: [
+                        {
+                            human: searchTerm,
+                            ai: resultOne
+                        }
+                    ]
+                })
+            }
+
             if (resultOne) {
                 return resolve({
                     code: 200,
                     message: 'vectorStore',
                     data: {
                         resultOne: resultOne,
-                        resultTwo: resultTwo
+                        resultTwo: chatHist
                     }
                 });
             } else {
