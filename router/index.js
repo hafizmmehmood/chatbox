@@ -26,7 +26,7 @@ serviceRouter.get('/admin/superAdmin', (req, res) =>
  */
 /////// Auth Api
 serviceRouter.use('/auth', require('../services/auth'));
-serviceRouter.use('/prod', require('../services/product/index'))
+serviceRouter.use('/prod', [checkAuth], require('../services/product'));
 ///////// =====
 
 /////// Admin Api
