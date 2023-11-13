@@ -4,7 +4,7 @@ exports.checkAuth = async (req, res, next) => {
   let token = null;
   if (req.headers.authorization) {
     token = req.headers.authorization.split(' ')[1];
-  }
+      }
   if (!token) {
     return res.status(HttpStatusCode.NOT_FOUND).json({
       code: HttpStatusCode.NOT_FOUND,

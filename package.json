@@ -27,6 +27,7 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "langchain": "^0.0.183",
+    "mongodb": "^6.2.0",
     "mongoose": "^6.3.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",

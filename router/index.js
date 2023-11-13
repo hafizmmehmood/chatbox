@@ -1,7 +1,7 @@
 const express = require('express');
 const serviceRouter = express.Router();
 const { checkAuth } = require('../middlewares/checkAuth');
-const { isSuperOrAdmin, isSuperAdmin } = require('../libs/shared/role');
+const { isSuperAdmin } = require('../libs/shared/role');
 
 /**
  * @Route Admin Panel Routes
@@ -36,7 +36,6 @@ serviceRouter.use(
   require('../services/admin/admins')
 );
 
-serviceRouter.use("/products",checkAuth, require('../services/products'));
 ///////// =====
 /**
  * End
