@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const connectDB = () => {
+  mongoose.set('strictQuery', false);
   mongoose
     .connect(
       process.env.NODE_ENV === 'test'
@@ -14,7 +15,7 @@ const connectDB = () => {
       console.log('connected to database');
       mongoose.set('debug', true);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("can't connect to database", err);
       process.exit(1);
     });
