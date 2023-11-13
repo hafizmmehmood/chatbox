@@ -29,5 +29,10 @@ prodRouter.get('/searchProdWithLC', (req, res) =>
 );
 
 
+prodRouter.get('/searchRunnables', (req, res) =>
+    routes["productRoute"](req, res, "searchRunnables")
+);
+
+
 
 module.exports = prodRouter;

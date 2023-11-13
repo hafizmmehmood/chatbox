@@ -9,12 +9,16 @@ const Product = require("../../models/Product");
 
 const { OpenAI } = require("langchain/llms/openai");
 const { MongoDBAtlasVectorSearch } = require("langchain/vectorstores/mongodb_atlas");
-const { RetrievalQAChain } = require("langchain/chains");
+const { RetrievalQAChain, ConversationalRetrievalQAChain } = require("langchain/chains");
 const llm = new OpenAI({
     modelName: "gpt-3.5-turbo"
 });
 const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
 const { MongoClient } = require("mongodb");
+const { default: mongoose } = require("mongoose");
+const { PromptTemplate } = require("langchain/prompts");
+const { RunnableSequence } = require("langchain/schema/runnable");
+const { StringOutputParser } = require("langchain/schema/output_parser");
 
 
 
@@ -170,7 +174,6 @@ const insertProdWithGpt = async (req, res) => {
     });
 }
 
-
 const searchProdWithLC = async (req) => {
     return new Promise(async (resolve) => {
         try {
@@ -184,17 +187,21 @@ const searchProdWithLC = async (req) => {
                 new OpenAIEmbeddings(),
                 {
                     collection,
-                    indexName: "default", // The name of the Atlas search index. Defaults to "default"
-                    textKey: "gpt_desc", // The name of the collection field containing the raw content. Defaults to "text"
-                    embeddingKey: "embedding", // The name of the collection field containing the embedded text. Defaults to "embedding"
+                    indexName: "default",
+                    textKey: "gpt_desc",
+                    embeddingKey: "embedding",
                 }
             );
-            const resultOne = await vectorStore.similaritySearch(searchTerm, 5);
-            console.log("Hello", resultOne);
+            // const resultOne = await vectorStore.similaritySearch(searchTerm, 5);
+            // console.log("Hello", resultOne);
             // const chain = new ConversationChain({ llm: llm, memory: memory });
-
-            const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
+            const chain = ConversationalRetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
             console.log("Chain:", vectorStore.asRetriever())
+
+
+
+            // const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
+            // console.log("Chain:", vectorStore.asRetriever())
 
             const response1 = await chain.call({ query: searchTerm });
             console.log(response1);
@@ -212,8 +219,139 @@ const searchProdWithLC = async (req) => {
                     message: 'vectorStore',
                     vectorStore: {
                         // vectorStore: vectorStore,
-                        resultOne: resultOne,
+                        // resultOne: resultOne,
                         response1: response1
+                    }
+                });
+            } else {
+                return resolve({
+                    code: 500,
+                    message: 'SERVERR_ERROR'
+                });
+            }
+        } catch (err) {
+            console.log("Error:", err)
+            return resolve({
+                code: 500,
+                message: 'SERVER_ERROR'
+            });
+        }
+    });
+}
+
+const searchRunnables = async (req) => {
+    return new Promise(async (resolve) => {
+        try {
+            const { BufferMemory } = require("langchain/memory");
+            const { MongoDBChatMessageHistory } = require("langchain/stores/message/mongodb");
+            const { formatDocumentsAsString } = require("langchain/util/document");
+            const { searchTerm, searchTerm2 } = req.query
+
+            const client = await new MongoClient(process.env.DATABASE_URL);
+
+            const collection = client.db('chatbox').collection('products');
+
+            const sessionId = mongoose.Types.ObjectId('654b3e83ac54041275bb45b2');
+            const chatHistory = new MongoDBChatMessageHistory({
+                collection,
+                sessionId,
+            });
+
+            console.log("chatHistory", chatHistory)
+            const memory = new BufferMemory({
+                memoryKey: "chat_history",
+                returnMessages: true,
+                chatHistory,
+            });
+            const vectorStore = new MongoDBAtlasVectorSearch(
+                new OpenAIEmbeddings(),
+                {
+                    collection,
+                    indexName: "default",
+                    textKey: "gpt_desc",
+                    embeddingKey: "embedding",
+                }
+            );
+
+            // const chain = ConversationalRetrievalQAChain.fromLLM(
+            //     llm,
+            //     vectorStore.asRetriever(),
+            //     {
+            //         memory,
+            //     }
+            // );
+
+
+
+            // chain.memory = memory;
+            // const res1 = await chain.invoke({
+            //     question: searchTerm
+            // });
+
+            // await memory.saveContext({ input: searchTerm }, { output: res1.text });
+
+            const formatChatHistory = (human, ai, previousChatHistory
+            ) => {
+                const newInteraction = `Human: ${human}\nAI: ${ai}`;
+                if (!previousChatHistory) {
+                    return newInteraction;
+                }
+                return `${previousChatHistory}\n\n${newInteraction}`;
+            };
+
+            const questionPrompt = PromptTemplate.fromTemplate(
+                `Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+                ----------------
+                CONTEXT: {context}
+                ----------------
+                CHAT HISTORY: {chatHistory}
+                ----------------
+                QUESTION: {question}
+                ----------------
+                Helpful Answer:`
+            );
+
+            const retriever = vectorStore.asRetriever();
+
+
+            const chain = RunnableSequence.from([
+                {
+                    question: (input) => {
+                        console.log("++++++", input)
+                        return input.question
+                    },
+                    chatHistory: (input) => {
+                        console.log("**********", input)
+                        return input.chatHistory ?? ""
+                    },
+                    context: async (input) => {
+                        const relevantDocs = await retriever.getRelevantDocuments(input.question);
+                        console.log("-----------------", relevantDocs)
+                        const serialized = formatDocumentsAsString(relevantDocs);
+                        console.log("::::::::::::::::::", serialized)
+                        return serialized;
+                    },
+                },
+                questionPrompt,
+                llm,
+                new StringOutputParser(),
+            ]);
+
+            const resultOne = await chain.invoke({
+                question: searchTerm,
+            });
+
+            const resultTwo = await chain.invoke({
+                chatHistory: formatChatHistory(resultOne, searchTerm),
+                question: searchTerm2,
+            });
+            if (resultOne) {
+                return resolve({
+                    code: 200,
+                    message: 'vectorStore',
+                    data: {
+                        resultOne: resultOne,
+                        resultTwo: resultTwo
                     }
                 });
             } else {
@@ -237,5 +375,6 @@ module.exports = {
     getSingleEmbedding,
     getSemanticSearch,
     insertProdWithGpt,
-    searchProdWithLC
+    searchProdWithLC,
+    searchRunnables
 }
