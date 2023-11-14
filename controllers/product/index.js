@@ -22,6 +22,11 @@ const { StringOutputParser } = require("langchain/schema/output_parser");
 const fs = require("fs");
 const path = require("path");
 
+const { BufferMemory } = require("langchain/memory");
+const { HNSWLib } = require("langchain/vectorstores/hnswlib");
+const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
+const { formatDocumentsAsString } = require("langchain/util/document");
+
 const searchProduct = async (req) => {
     return new Promise(async (resolve) => {
         try {
@@ -272,15 +277,18 @@ const searchRunnables = async (req) => {
             //     returnMessages: true,
             //     chatHistory,
             // });
-            const vectorStore = new MongoDBAtlasVectorSearch(
-                new OpenAIEmbeddings(),
-                {
-                    collection,
-                    indexName: "default",
-                    textKey: "gpt_desc",
-                    embeddingKey: "embedding",
-                }
-            );
+            // const vectorStore = new MongoDBAtlasVectorSearch(
+            //     new OpenAIEmbeddings(),
+            //     {
+            //         collection,
+            //         indexName: "default",
+            //         textKey: "gpt_desc",
+            //         embeddingKey: "embedding",
+            //     }
+            // );
+            const directory = path.join(__dirname, '../../dataFiles/');
+            const vectorStore = await HNSWLib.load(directory, new OpenAIEmbeddings());
+
             const retriever = vectorStore.asRetriever();
             const oldChats = await Chats.findOne({ userId: userId })
 
@@ -399,16 +407,10 @@ const runnableWithPdf = async (req) => {
         try {
             const userId = req.jwt.id;
             const { searchTerm } = req.query
-            const { BufferMemory } = require("langchain/memory");
-            const { HNSWLib } = require("langchain/vectorstores/hnswlib");
-            const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
-            const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
-            const { formatDocumentsAsString } = require("langchain/util/document");
+
             const text = fs.readFileSync(path.join(__dirname, '../../dataFiles/Products_Descriptions.txt'), "utf-8");
+            //To create Vector Store
 
-            // const text = fs.readFileSync("../../dataFiles/Products_Descriptions.txt", (err, data) => {
-
-            // console.log("Text,", text)
             const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
             const docs = await textSplitter.createDocuments([text]);
             const directory = path.join(__dirname, '../../dataFiles/');
@@ -487,7 +489,10 @@ const runnableWithPdf = async (req) => {
                 },
                 {
                     question: (previousStepResult) => previousStepResult.question,
-                    chatHistory: (previousStepResult) => serializeChatHistory(previousStepResult.chatHistory ?? ""),
+                    chatHistory: (previousStepResult) => {
+                        console.log("PrevRes", serializeChatHistory(previousStepResult.chatHistory ?? ""))
+                        return serializeChatHistory(previousStepResult.chatHistory ?? "")
+                    },
                     context: async (previousStepResult) => {
                         // Fetch relevant docs and serialize to a string.
                         const relevantDocs = await retriever.getRelevantDocuments(
@@ -544,12 +549,14 @@ const runnableWithPdf = async (req) => {
             const fullChain = RunnableSequence.from([
                 {
                     question: (input) => input.question,
+
                 },
                 branch,
             ]);
 
             const resultOne = await fullChain.invoke({
                 question: searchTerm,
+
             });
 
             // const oldChats = await Chats.findOne({ userId: userId })
