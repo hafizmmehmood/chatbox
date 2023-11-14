@@ -33,6 +33,10 @@ prodRouter.get('/searchRunnables', (req, res) =>
     routes["productRoute"](req, res, "searchRunnables")
 );
 
+prodRouter.get('/runnableWithPdf', (req, res) =>
+    routes["productRoute"](req, res, "runnableWithPdf")
+);
+
 
 
 module.exports = prodRouter;

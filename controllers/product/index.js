@@ -9,7 +9,7 @@ const Product = require("../../models/Product");
 const Chats = require("../../models/Chats")
 const { OpenAI } = require("langchain/llms/openai");
 const { MongoDBAtlasVectorSearch } = require("langchain/vectorstores/mongodb_atlas");
-const { RetrievalQAChain, ConversationalRetrievalQAChain } = require("langchain/chains");
+const { RetrievalQAChain, ConversationalRetrievalQAChain, LLMChain } = require("langchain/chains");
 const llm = new OpenAI({
     modelName: "gpt-3.5-turbo"
 });
@@ -17,10 +17,10 @@ const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
 const { MongoClient } = require("mongodb");
 const { default: mongoose } = require("mongoose");
 const { PromptTemplate } = require("langchain/prompts");
-const { RunnableSequence } = require("langchain/schema/runnable");
+const { RunnableSequence, RunnableBranch } = require("langchain/schema/runnable");
 const { StringOutputParser } = require("langchain/schema/output_parser");
-
-
+const fs = require("fs");
+const path = require("path");
 
 const searchProduct = async (req) => {
     return new Promise(async (resolve) => {
@@ -78,13 +78,19 @@ const getSemanticSearch = async (req) => {
             const resp = await getOpenAiEmbedding(searchTerm)
             let searchEmbedding = resp?.data[0]?.embedding;
             const products = await Product.aggregate(vectorAggregation(searchEmbedding))
+            // const products = await Product.find()
+
+            // var pdfData = ''
+            // products.forEach((product, index) => {
+            //     pdfData = pdfData + 'Product ' + index + ': ' + product.gpt_desc
+            // })
 
             if (products) {
                 return resolve({
                     code: 200,
                     message: 'SUCCESS',
                     data: {
-                        length: products?.length,
+                        // pdfData: pdfData,
                         products: products
                     }
                 });
@@ -252,6 +258,10 @@ const searchRunnables = async (req) => {
 
             const collection = client.db('chatbox').collection('products');
 
+
+
+
+
             // const sessionId = mongoose.Types.ObjectId('654b3e83ac54041275bb45b2');
             // const chatHistory = new MongoDBChatMessageHistory({
             //     collection,
@@ -272,6 +282,7 @@ const searchRunnables = async (req) => {
                 }
             );
             const retriever = vectorStore.asRetriever();
+            const oldChats = await Chats.findOne({ userId: userId })
 
 
             // await memory.saveContext({ input: searchTerm }, { output: res1.text });
@@ -283,17 +294,19 @@ const searchRunnables = async (req) => {
             };
 
             const questionPrompt = PromptTemplate.fromTemplate(
-                `Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
-                ----------------
-                CONTEXT: {context}
+                `You are AI Assistant for my E-commerce Store. My customers will ask questions from you.You have to answer my customers from both chatHistory and Context. Make sure to satisfy my customer with your answer. Answer confidently and don't say sorry. 
+                Also, if product name or sku is not directly mentioned in the Question then asnswer user from latest history
                 ----------------
                 CHAT HISTORY: {chatHistory}
+                ----------------
+                CONTEXT: {context}
                 ----------------
                 QUESTION: {question}
                 ----------------
                 Helpful Answer:`
             );
-
+            var relevantDocs = []
+            var serialized = ''
             const chain = RunnableSequence.from([
                 {
                     question: (input) => {
@@ -303,8 +316,8 @@ const searchRunnables = async (req) => {
                         return input.chatHistory ?? ""
                     },
                     context: async (input) => {
-                        const relevantDocs = await retriever.getRelevantDocuments(input.question);
-                        const serialized = formatDocumentsAsString(relevantDocs);
+                        relevantDocs = await retriever.getRelevantDocuments(input.question);
+                        serialized = formatDocumentsAsString(relevantDocs);
                         return serialized;
                     },
                 },
@@ -313,10 +326,10 @@ const searchRunnables = async (req) => {
                 new StringOutputParser(),
             ]);
 
-            const oldChats = await Chats.findOne({ userId: userId })
+
             var chatHist = []
             if (oldChats) {
-                chatHist = oldChats.chats.map((item) => formatChatHistory(item.human, item.ai))
+                chatHist = oldChats.chats.slice(oldChats.chats.length - 5, oldChats.chats.length).map((item) => formatChatHistory(item.human, item.ai))
             }
 
             const resultOne = await chain.invoke({
@@ -357,7 +370,216 @@ const searchRunnables = async (req) => {
                     message: 'vectorStore',
                     data: {
                         resultOne: resultOne,
-                        resultTwo: chatHist
+                        relevantDocs: relevantDocs,
+                        serialized: serialized,
+                        // questionPrompt: questionPrompt,
+                        chatHist: chatHist,
+                        oldChats: oldChats
+                    }
+                });
+            } else {
+                return resolve({
+                    code: 500,
+                    message: 'SERVERR_ERROR'
+                });
+            }
+        } catch (err) {
+            console.log("Error:", err)
+            return resolve({
+                code: 500,
+                message: 'SERVER_ERROR'
+            });
+        }
+    });
+}
+
+
+const runnableWithPdf = async (req) => {
+    return new Promise(async (resolve) => {
+        try {
+            const userId = req.jwt.id;
+            const { searchTerm } = req.query
+            const { BufferMemory } = require("langchain/memory");
+            const { HNSWLib } = require("langchain/vectorstores/hnswlib");
+            const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
+            const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
+            const { formatDocumentsAsString } = require("langchain/util/document");
+            const text = fs.readFileSync(path.join(__dirname, '../../dataFiles/Products_Descriptions.txt'), "utf-8");
+
+            // const text = fs.readFileSync("../../dataFiles/Products_Descriptions.txt", (err, data) => {
+
+            // console.log("Text,", text)
+            const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+            const docs = await textSplitter.createDocuments([text]);
+            const directory = path.join(__dirname, '../../dataFiles/');
+            const vectorStore = await HNSWLib.load(directory, new OpenAIEmbeddings());
+
+            // const vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
+            // await vectorStore.save(directory);
+            const retriever = vectorStore.asRetriever();
+
+            const client = await new MongoClient(process.env.DATABASE_URL);
+
+            const serializeChatHistory = (chatHistory) => {
+                if (Array.isArray(chatHistory)) {
+                    return chatHistory.join("\n");
+                }
+                return chatHistory;
+            };
+
+            const memory = new BufferMemory({
+                memoryKey: "chatHistory",
+            });
+
+            const questionPrompt = PromptTemplate.fromTemplate(
+                `Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+            ----------------
+            CHAT HISTORY: {chatHistory}
+            ----------------
+            CONTEXT: {context}
+            ----------------
+            QUESTION: {question}
+            ----------------
+            Helpful Answer:`
+            );
+
+            const questionGeneratorTemplate =
+                PromptTemplate.fromTemplate(`Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
+        ----------------
+        CHAT HISTORY: {chatHistory}
+        ----------------
+        FOLLOWUP QUESTION: {question}
+        ----------------
+        Standalone question:`);
+            //input : {
+            //     question: string;
+            //     context: string;
+            //     chatHistory?: string | Array<string>;
+            //   }
+
+            const handleProcessQuery = async (input) => {
+                const chain = new LLMChain({
+                    llm: llm,
+                    prompt: questionPrompt,
+                    outputParser: new StringOutputParser(),
+                });
+
+                const { text } = await chain.call({
+                    ...input,
+                    chatHistory: serializeChatHistory(input.chatHistory ?? ""),
+                });
+
+                await memory.saveContext(
+                    {
+                        human: input.question,
+                    },
+                    {
+                        ai: text,
+                    }
+                );
+
+                return text;
+            };
+
+            const answerQuestionChain = RunnableSequence.from([
+                {
+                    question: (input) => input.question,
+                },
+                {
+                    question: (previousStepResult) => previousStepResult.question,
+                    chatHistory: (previousStepResult) => serializeChatHistory(previousStepResult.chatHistory ?? ""),
+                    context: async (previousStepResult) => {
+                        // Fetch relevant docs and serialize to a string.
+                        const relevantDocs = await retriever.getRelevantDocuments(
+                            previousStepResult.question
+                        );
+                        const serialized = formatDocumentsAsString(relevantDocs);
+                        return serialized;
+                    },
+                },
+                handleProcessQuery,
+            ]);
+
+            const generateQuestionChain = RunnableSequence.from([
+                {
+                    question: (input) => input.question,
+                    chatHistory: async () => {
+                        const memoryResult = await memory.loadMemoryVariables({});
+                        return serializeChatHistory(memoryResult.chatHistory ?? "");
+                    },
+                },
+                questionGeneratorTemplate,
+                llm,
+                // Take the result of the above model call, and pass it through to the
+                // next RunnableSequence chain which will answer the question
+                {
+                    question: (previousStepResult) =>
+                        previousStepResult.text,
+                },
+                answerQuestionChain,
+            ]);
+
+            const branch = RunnableBranch.from([
+                [
+                    async () => {
+                        const memoryResult = await memory.loadMemoryVariables({});
+                        const isChatHistoryPresent = !memoryResult.chatHistory.length;
+
+                        return isChatHistoryPresent;
+                    },
+                    answerQuestionChain,
+                ],
+                [
+                    async () => {
+                        const memoryResult = await memory.loadMemoryVariables({});
+                        const isChatHistoryPresent =
+                            !!memoryResult.chatHistory && memoryResult.chatHistory.length;
+
+                        return isChatHistoryPresent;
+                    },
+                    generateQuestionChain,
+                ],
+                answerQuestionChain,
+            ]);
+            const fullChain = RunnableSequence.from([
+                {
+                    question: (input) => input.question,
+                },
+                branch,
+            ]);
+
+            const resultOne = await fullChain.invoke({
+                question: searchTerm,
+            });
+
+            // const oldChats = await Chats.findOne({ userId: userId })
+
+
+
+            // const formatChatHistory = (human, ai, previousChatHistory) => {
+            //     const newInteraction = `Human: ${human}\nAI: ${ai}`;
+            //     return newInteraction;
+
+            // };
+
+
+
+
+            // var chatHist = []
+            // if (oldChats) {
+            //     chatHist = oldChats.chats.slice(oldChats.chats.length - 5, oldChats.chats.length).map((item) => formatChatHistory(item.human, item.ai))
+            // }
+
+
+
+
+
+            if (resultOne) {
+                return resolve({
+                    code: 200,
+                    message: 'vectorStore',
+                    data: {
+                        resultOne: resultOne,
                     }
                 });
             } else {
@@ -382,5 +604,6 @@ module.exports = {
     getSemanticSearch,
     insertProdWithGpt,
     searchProdWithLC,
-    searchRunnables
+    searchRunnables,
+    runnableWithPdf
 }

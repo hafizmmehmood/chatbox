@@ -1,0 +1,506 @@
+[
+    [
+        "0",
+        {
+            "pageContent": "Product 0: This educational puzzle set for kids is designed to challenge young minds and promote learning through play. It comes in an attractive combination of orange and green colors. The product is specifically categorized under Kids. The original price of the puzzle set is $14.99, but it is currently on sale for $11.99. The product SKU is EPS2345.Product 1: Stay cozy in style with this hooded sweatshirt, perfect for casual outings. The Cozy Hooded Sweatshirt (SKU: CHS7890) is available in gray and burgundy colors. It falls under the category of Clothes and is priced at $34.99. Currently, it is on sale for $29.99.Product 2: Stay cool and stylish in these Denim Shorts for the summer. These shorts come in two colors: blue and light blue. They are perfect for hot weather and can be paired with any top for a trendy look. The SKU of the product is DS7890. The regular price is $24.99, but currently on sale for $19.99.Product 3: Upgrade your kitchen with this durable Stainless Steel",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "1",
+        {
+            "pageContent": "with any top for a trendy look. The SKU of the product is DS7890. The regular price is $24.99, but currently on sale for $19.99.Product 3: Upgrade your kitchen with this durable Stainless Steel Blender. This blender is designed for smooth and efficient blending. It comes in two color options, silver and black. The product SKU is SSB5678 and it belongs to the Kitchen category. The original price is $99.99, but it is currently on sale for $89.99.Product 4: The Athletic Jogging Pants are the perfect companion for your workouts. Made with breathable and flexible materials, these pants ensure maximum comfort and unrestricted movement. Available in black and navy colors, they are suitable for any style preference. The pants are part of the Clothes category and are priced at $34.99, with a current sale price of $29.99 (SKU: AJP7890).Product 5: The Quilted Winter Jacket is a stylish and warm outerwear option for cold weather. It features a quilted design and is available in the colors black",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "2",
+        {
+            "pageContent": "sale price of $29.99 (SKU: AJP7890).Product 5: The Quilted Winter Jacket is a stylish and warm outerwear option for cold weather. It features a quilted design and is available in the colors black and navy. This jacket is perfect for staying cozy and fashionable during winter. The regular price is $79.99, but it is currently on sale for $69.99. The product SKU is QWJ7890.Product 6: The Mountain Biking Helmet is a durable and stylish helmet designed specifically for mountain biking adventures. It ensures your safety while you conquer challenging terrains. Available in red and gray colors, this helmet is perfect for sports enthusiasts. With a regular price of $69.99, it is currently on sale for $59.99. Stay protected and enjoy your mountain biking experience with this high-quality helmet.Product 7: The Wireless Noise-Canceling Headphones (SKU: WNCH5678) allow you to immerse yourself in your favorite music with advanced wireless technology and noise-canceling capabilities. Available in",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "3",
+        {
+            "pageContent": "7: The Wireless Noise-Canceling Headphones (SKU: WNCH5678) allow you to immerse yourself in your favorite music with advanced wireless technology and noise-canceling capabilities. Available in black and gold, these headphones provide an enhanced audio experience by significantly reducing background noise. This product falls under the Electronics category and is priced at $149.99, with a discounted sale price of $139.99.Product 8: The Striped Polo Shirt (SKU: SPS7890) is a classic addition to your wardrobe. This stylish shirt features a timeless striped design in navy and white colors. Made from high-quality materials, it offers both comfort and durability. Suitable for various occasions, this polo shirt is perfect for a casual and polished look. The regular price of this item is $29.99, but it is currently on sale for $24.99.Product 9: This Compact Food Processor is designed to make meal preparation in your kitchen effortless. With its compact size and versatile functionality, it",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "4",
+        {
+            "pageContent": "but it is currently on sale for $24.99.Product 9: This Compact Food Processor is designed to make meal preparation in your kitchen effortless. With its compact size and versatile functionality, it allows for easy and convenient food processing. The product has a sleek design available in white and silver color options. It belongs to the Kitchen category and is priced at $79.99, currently on sale for $69.99.Product 10: The Wireless Gaming Mouse is a high-performance device that offers precise gaming control. It is designed to provide seamless wireless connectivity for an uninterrupted gaming experience. This mouse is equipped with advanced technology to ensure accurate tracking and responsiveness during gaming sessions. It features a sleek design in a black color, and also offers RGB lighting options for customizable aesthetics. The mouse is an essential accessory for gamers who demand precision and comfort in their gameplay. Its original price is $59.99, but is currently on sale for",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "5",
+        {
+            "pageContent": "options for customizable aesthetics. The mouse is an essential accessory for gamers who demand precision and comfort in their gameplay. Its original price is $59.99, but is currently on sale for $49.99.Product 11: The Skiing and Snowboarding Goggles are high-performance goggles designed to ensure clear vision on the slopes. They come in two vibrant color options - blue and orange. The goggles are perfect for skiing and snowboarding enthusiasts and are made with the highest quality materials. The regular price of these goggles is $59.99, but they are currently on sale for $49.99. Grab them now and enjoy your winter adventures with optimal vision and style!. The Product is in StockProduct 12: The Fitness Smartwatch (SKU: FSW5678) is a feature-packed device that allows you to monitor your health and workouts effectively. This smartwatch comes in two colors: black and green. It falls under the category of Electronics and is priced at $149.99. However, there is currently a sale price of",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "6",
+        {
+            "pageContent": "health and workouts effectively. This smartwatch comes in two colors: black and green. It falls under the category of Electronics and is priced at $149.99. However, there is currently a sale price of $139.99, making it an excellent deal. Stay on top of your fitness goals with this advanced and stylish smartwatch.Product 13: The Portable Smoothie Blender (SKU: PSB1234) is a convenient and compact device that allows you to easily blend delicious smoothies wherever you go. This rechargeable blender is perfect for those who are constantly on the move and don't want to compromise on nutrition. The blender comes in two vibrant colors, green and purple, and is categorized under Kitchen. It is priced at $34.99, but is currently on sale for $29.99.Product 14: The Interactive Science Book for Kids is a captivating and engaging educational tool designed to make learning fun. This book is packed with interactive features and activities that will stimulate young minds and foster a love for",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "7",
+        {
+            "pageContent": "Kids is a captivating and engaging educational tool designed to make learning fun. This book is packed with interactive features and activities that will stimulate young minds and foster a love for science. Its vibrant orange and purple colors add a visually appealing touch. This book is perfect for children interested in exploring the fascinating world of science. It is priced at $24.99, with a limited time sale price of $19.99.Product 15: The Smart Blender (SKU: SB1234) is a versatile and efficient appliance for creating healthy and delicious smoothies. With its smart technology, it makes blending easier and more convenient. Available in green and orange, it is a perfect addition to any kitchen. The Smart Blender is priced at $79.99, but currently on sale for $69.99. Don't miss out on this amazing deal!Product 16: The Trail Running Shoes are a must-have for conquering the trails. These shoes are lightweight and durable, making them perfect for those rugged terrains. With a sleek",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "8",
+        {
+            "pageContent": "this amazing deal!Product 16: The Trail Running Shoes are a must-have for conquering the trails. These shoes are lightweight and durable, making them perfect for those rugged terrains. With a sleek design and availability in both blue and gray, these shoes are not only functional but also stylish. They belong to the Sports category and are priced at $89.99, with a current sale price of $79.99 (SKU: TRS7890). Get ready to take on any trail with confidence and comfort.Product 17: The Building Blocks Play Set is a stimulating and imaginative toy designed for kids. This play set includes a variety of building blocks that can be used to create endless structures and designs. The set is available in two vibrant colors, blue and yellow. It falls under the category of Kids toys and is priced at $19.99. Currently, the play set is on sale, and the sale price is $15.99.Product 18: The Cycling Helmet is a must-have for any cyclist looking to ensure safety during their adventures. This helmet",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "9",
+        {
+            "pageContent": "at $19.99. Currently, the play set is on sale, and the sale price is $15.99.Product 18: The Cycling Helmet is a must-have for any cyclist looking to ensure safety during their adventures. This helmet offers a comfortable fit, thanks to its ergonomic design, and its aerodynamic features enhance performance. Available in two vibrant colors, blue and yellow, this helmet is not only functional but also stylish. It belongs to the Sports category and is priced at $49.99, with a current sale price of $39.99. Don't miss out on this essential protective gear for your cycling needs.Product 19: The Tennis Racket Set is designed to help you enhance your tennis game. This high-quality racket set is perfect for both beginners and experienced players. It comes with a yellow and black color scheme, adding a stylish touch to your matches. The set is made for sports enthusiasts and is part of the Sports category. The regular price is $79.99, but it is currently on sale for $69.99, offering great value",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "10",
+        {
+            "pageContent": "a stylish touch to your matches. The set is made for sports enthusiasts and is part of the Sports category. The regular price is $79.99, but it is currently on sale for $69.99, offering great value for money. Get ready to improve your skills and enjoy exciting games with this Tennis Racket Set.Product 20: The Camping Tent (SKU: CT4567) is a spacious and weather-resistant tent perfect for enjoying the great outdoors. With its green or blue color options, this Sports category product offers a comfortable shelter for camping enthusiasts. The regular price is $79.99, but it is currently on sale for $69.99. Don't miss the opportunity to grab this tent and make your camping adventures even more enjoyable.Product 21: The HD Action Camera is a must-have for adventure enthusiasts who want to capture their experiences in exceptional detail. This high-definition camera allows you to record your adventures in stunning clarity. With a sleek design and available in both black and silver, this",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "11",
+        {
+            "pageContent": "capture their experiences in exceptional detail. This high-definition camera allows you to record your adventures in stunning clarity. With a sleek design and available in both black and silver, this action camera is not only functional but also stylish. It belongs to the electronics category and is priced at $129.99. However, it is currently on sale for a discounted price of $119.99, making it a tempting offer for those in search of a reliable and affordable action camera.Product 22: The Smart Home Security Camera is a must-have for every home. It allows you to monitor your home with its high-definition video and advanced motion detection technology. The camera comes in two stylish colors, white and black, to suit any home decor. It belongs to the electronics category and is priced at $129.99, with a current sale price of $119.99. Keep your home safe and secure with this state-of-the-art security camera.Product 23: The Smart Coffee Maker (SKU: SCM5678) is a convenient and efficient",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "12",
+        {
+            "pageContent": "with a current sale price of $119.99. Keep your home safe and secure with this state-of-the-art security camera.Product 23: The Smart Coffee Maker (SKU: SCM5678) is a convenient and efficient way to brew your favorite coffee. With this smart coffee maker, you can enjoy a fresh cup of coffee any time of day. It comes in two classic colors, black and white, making it easy to match your kitchen decor. This coffee maker is perfect for any coffee lover and is currently on sale for $39.99 (regular price: $49.99). Don't miss out on this great deal!Product 24: The Interactive Learning Tablet for Kids is a fun and educational device that allows children to learn while having fun. This tablet comes with a variety of interactive games and activities designed to engage and challenge young minds. It has a sleek design and is available in two vibrant colors, pink and purple. The tablet is perfect for children of all ages and provides an interactive and engaging learning experience. At a regular",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "13",
+        {
+            "pageContent": "has a sleek design and is available in two vibrant colors, pink and purple. The tablet is perfect for children of all ages and provides an interactive and engaging learning experience. At a regular price of $34.99, it is a great value, but currently on sale for $29.99. Get this tablet today and make learning enjoyable for your child.Product 25: This Casual Striped Dress is the perfect addition to your wardrobe for elevating your casual style. Made from comfortable materials, this dress features chic stripes in navy and white. It is a versatile piece that can be dressed up or down for any occasion. The dress is available at a regular price of $39.99, but currently on sale for $34.99.Product 26: The educational building blocks are a perfect tool to encourage learning and creativity in kids. These blocks are designed to provide a fun and interactive learning experience, allowing kids to explore their imagination and problem-solving skills. Made with quality materials, they are durable",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "14",
+        {
+            "pageContent": "These blocks are designed to provide a fun and interactive learning experience, allowing kids to explore their imagination and problem-solving skills. Made with quality materials, they are durable and safe for children to use. The set includes blocks in both yellow and blue colors, providing endless possibilities for building and creating. Additionally, the product is currently on sale, with a discounted price of $24.99, making it a great value for parents and educators looking to enhance their child's learning experience.Product 27: The Noise-Canceling Earbuds in white and gold colors provide an immersive audio experience. These earbuds effectively cancel out surrounding noise, allowing you to enjoy your favorite music or audio content without any disturbances. With a regular price of $89.99, you can now grab them at a discounted sale price of $79.99. These earbuds are a must-have for anyone seeking high-quality sound and uninterrupted listening. Suitable for use in various",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "15",
+        {
+            "pageContent": "of $89.99, you can now grab them at a discounted sale price of $79.99. These earbuds are a must-have for anyone seeking high-quality sound and uninterrupted listening. Suitable for use in various electronic devices, they belong to the Electronics category. The SKU code for this product is NCE5678.Product 28: The Digital Air Fryer (SKU: DAF1234) is the perfect kitchen appliance to cook healthier meals with less oil. This air fryer comes in silver and black colors, making it a stylish addition to any kitchen. With its digital control panel, it offers convenience and ease of use. The fryer is designed to provide delicious, crispy food with a fraction of the oil traditionally required for frying. Its regular price is $109.99, but currently on sale for $99.99. Embrace a healthier lifestyle with this digital air fryer.Product 29: The Compact Food Steamer is a versatile kitchen appliance that allows you to prepare healthy meals effortlessly. With its compact design, it easily fits in any",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "16",
+        {
+            "pageContent": "with this digital air fryer.Product 29: The Compact Food Steamer is a versatile kitchen appliance that allows you to prepare healthy meals effortlessly. With its compact design, it easily fits in any kitchen space. This efficient steamer ensures that your food is cooked to perfection, retaining its nutrients and flavors. It comes in a sleek white or green color, adding a touch of style to your kitchen. The product is part of the Kitchen category and is priced at $49.99, but is currently on sale for $39.99. Don't miss out on this amazing deal!Product 30: Stay warm and stylish this winter with our Winter Knit Sweater. Perfect for the colder months, this cozy sweater comes in two classic colors, gray and burgundy. Made with high-quality materials, it will keep you comfortable all day long. The Winter Knit Sweater is a must-have addition to your winter wardrobe. Get it now at the discounted price of $39.99. Don't miss out on this stylish and affordable piece. SKU: WKS7890.Product 31: The",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "17",
+        {
+            "pageContent": "Winter Knit Sweater is a must-have addition to your winter wardrobe. Get it now at the discounted price of $39.99. Don't miss out on this stylish and affordable piece. SKU: WKS7890.Product 31: The Golf Club Set (SKU: GCS7890) is a high-quality and complete set of clubs designed to help you improve your golf game. This set includes clubs in both green and black colors, making it suitable for any golfer's style preferences. Whether you're a beginner or an experienced player, these clubs are sure to enhance your performance on the course. The set is made for sports enthusiasts and is available at a competitive price of $179.99, with a limited-time sale price of $159.99. Upgrade your golf equipment with this comprehensive golf club set today.Product 32: The Interactive Storybook for Kids, with SKU ISB2345, is specifically designed to captivate young minds and ignite their imagination. This storybook is full of interactive elements that engage children and make reading an enjoyable and",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "18",
+        {
+            "pageContent": "with SKU ISB2345, is specifically designed to captivate young minds and ignite their imagination. This storybook is full of interactive elements that engage children and make reading an enjoyable and immersive experience. It comes in two vibrant colors, purple and green, which will surely appeal to kids. With a regular price of $19.99, this interactive storybook is now on sale at a discounted price of $16.99. It is the perfect addition to any child's book collection and is suitable for kids of all ages.Product 33: The Foldable Wireless Keyboard is a compact and versatile electronic accessory designed to enhance productivity. With its foldable design, it can easily be stored and carried, making it perfect for on-the-go use. This keyboard is wireless, allowing for convenient and hassle-free connectivity to your devices. It comes in two classic colors, black and silver, to suit different styles. Whether you are working, studying, or simply browsing, this keyboard offers a seamless typing",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "19",
+        {
+            "pageContent": "connectivity to your devices. It comes in two classic colors, black and silver, to suit different styles. Whether you are working, studying, or simply browsing, this keyboard offers a seamless typing experience. With a regular price of $49.99, it is currently on sale for the discounted price of $39.99.Product 34: The Wireless Charging Stand is a sleek and convenient device that allows you to charge your devices with ease and style. It is designed to provide a seamless charging experience for your electronics. With its wireless charging capability, you can say goodbye to tangled cables and enjoy the convenience of simply placing your device on the stand to charge. Available in both black and rose gold, this charging stand adds a touch of elegance to your workspace or home. Its compact design makes it easy to carry and it is compatible with a wide range of devices. The original price is $44.99 but currently on sale for $39.99.Product 35: The Mountain Climbing Gear Set (SKU: MCGS7890) is",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "20",
+        {
+            "pageContent": "makes it easy to carry and it is compatible with a wide range of devices. The original price is $44.99 but currently on sale for $39.99.Product 35: The Mountain Climbing Gear Set (SKU: MCGS7890) is the perfect companion for all your mountain climbing adventures. This comprehensive gear set includes everything you need to stay safe and make the most of your climbing experience. The set is available in the colors orange and black, and it falls under the category of sports. With a regular price of $159.99, it is now on sale for $149.99. Gear up and get ready to conquer the mountains with this top-quality gear set.Product 36: The Colorful Building Blocks are a set of creative toys for kids. This product, with the SKU code CBB2345, is designed to inspire children's creativity and imagination. The blocks come in pink and yellow colors, adding a vibrant touch to playtime. Made for kids, these blocks offer endless possibilities for building and creating various structures. The original price",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "21",
+        {
+            "pageContent": "The blocks come in pink and yellow colors, adding a vibrant touch to playtime. Made for kids, these blocks offer endless possibilities for building and creating various structures. The original price of the product is $22.99, but it is currently on sale for $19.99. Get this educational and entertaining toy for your child today!Product 37: The Multifunctional Blender (SKU: MB1234) is a versatile kitchen appliance that offers a wide range of capabilities. With its powerful functionality, you can effortlessly blend, chop, and mix various ingredients. This blender is perfect for simplifying your food preparation process and saving you time in the kitchen. Available in two attractive colors, red and silver, it is both stylish and practical. Priced at $69.99, this blender provides exceptional value for its features. Additionally, take advantage of our limited-time offer and purchase it at a discounted price of $59.99. Upgrade your kitchen essentials with this multifunctional blender",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "22",
+        {
+            "pageContent": "value for its features. Additionally, take advantage of our limited-time offer and purchase it at a discounted price of $59.99. Upgrade your kitchen essentials with this multifunctional blender today.Product 38: The High-Performance Soccer Ball is designed to elevate your game on the field. This soccer ball offers exceptional performance and durability, providing you with the perfect tool to improve your skills. Its vibrant colors of red and white make it highly visible on the pitch. Whether you're a professional player or a soccer enthusiast, this high-quality ball is a must-have. It is available at a reasonable price, with a current sale price of $15.99. Don't miss the chance to enhance your soccer experience with this top-notch soccer ball.Product 39: The Road Cycling Shoes are specially designed to enhance your cycling performance. Made with lightweight and breathable materials, these shoes provide utmost comfort and improved breathability. The shoes come in two color options, red",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "23",
+        {
+            "pageContent": "designed to enhance your cycling performance. Made with lightweight and breathable materials, these shoes provide utmost comfort and improved breathability. The shoes come in two color options, red and black, allowing you to choose the one that suits your style. Perfect for road cycling enthusiasts, these shoes are a must-have for serious riders. The regular price of the shoes is $69.99, but you can get them on sale for $59.99. Upgrade your cycling gear with these high-quality road cycling shoes.Product 40: The Slim Fit Dress Shirt is a stylish and sharp choice for various occasions. This shirt is designed to fit slim and accentuate your body shape. It is available in two classic colors - white and blue. Made from high-quality materials, this dress shirt offers both comfort and style. The regular price is $49.99, but it is currently on sale for $44.99. Perfect for those who want to look their best without compromising on quality. SKU: SFDS7890.Product 41: The Interactive World Map for",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "24",
+        {
+            "pageContent": "regular price is $49.99, but it is currently on sale for $44.99. Perfect for those who want to look their best without compromising on quality. SKU: SFDS7890.Product 41: The Interactive World Map for Kids is a fun and educational tool designed to help children explore geography. This interactive map provides an engaging way for kids to learn about different countries and continents. It is packed with features that make learning fun, including colorful illustrations, informative labels, and interactive elements. With this interactive world map, kids can travel the world without leaving their home. The map comes in two vibrant colors, blue and green, and is suitable for kids of all ages. It is priced at $29.99, but currently on sale for $24.99. Get ready to inspire your little ones with the wonders of the world with this interactive world map.Product 42: The Sous Vide Precision Cooker is a high-quality kitchen device that allows you to achieve restaurant-quality meals in the comfort of",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "25",
+        {
+            "pageContent": "wonders of the world with this interactive world map.Product 42: The Sous Vide Precision Cooker is a high-quality kitchen device that allows you to achieve restaurant-quality meals in the comfort of your own home. This precision cooker is perfect for the modern home cook looking to enhance their culinary skills. With its sleek silver or black design, it not only adds a touch of elegance to your kitchen but also delivers precise and consistent results every time. Whether you're cooking meat, fish, vegetables, or desserts, this sous vide precision cooker ensures that your food is cooked to perfection. With a regular price of $129.99, you can now enjoy the benefits of this amazing kitchen tool at a discounted price of $119.99. Don't miss out on this opportunity to elevate your cooking game and create delicious meals like a prochef.Product 43: This Casual Cotton T-Shirt is designed to offer both comfort and style. Made with high-quality cotton, it provides a soft and breathable feel. The",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "26",
+        {
+            "pageContent": "create delicious meals like a prochef.Product 43: This Casual Cotton T-Shirt is designed to offer both comfort and style. Made with high-quality cotton, it provides a soft and breathable feel. The shirt comes in two classic colors - black and gray, allowing you to easily match it with any outfit. Whether you're heading out for a casual event or simply want to relax at home, this t-shirt is the perfect choice. With a regular fit and a reasonable sale price of $11.99, it's a great addition to your wardrobe. Don't miss out on this versatile and affordable piece of clothing.Product 44: The Educational Math Puzzle Set is a fun and interactive way to enhance math skills for kids. This engaging puzzle set is designed to make learning math enjoyable and accessible. It comes in a vibrant yellow and green color, making it visually appealing for children. The set includes a variety of puzzles and activities that focus on different math concepts. From counting and addition to shapes and patterns,",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "27",
+        {
+            "pageContent": "green color, making it visually appealing for children. The set includes a variety of puzzles and activities that focus on different math concepts. From counting and addition to shapes and patterns, this puzzle set covers a wide range of math skills. With its affordable price and current sale price of $16.99, this Educational Math Puzzle Set is a must-have for parents and educators looking to make math learning fun and effective for kids.Product 45: The Wireless Bluetooth Headphones (SKU: WBH7890) are the perfect way to immerse yourself in music. These headphones provide a wireless connection with Bluetooth technology, allowing you to enjoy your favorite songs without the hassle of tangled wires. The headphones come in two stylish color options: blue and silver. They are perfect for any music lover looking for a convenient and high-quality audio experience. The original price of the headphones is $129.99, but currently, they are on sale for $119.99. Grab a pair now and enjoy the",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "28",
+        {
+            "pageContent": "any music lover looking for a convenient and high-quality audio experience. The original price of the headphones is $129.99, but currently, they are on sale for $119.99. Grab a pair now and enjoy the ultimate wireless listening experience.Product 46: This digital air fryer oven is a versatile and efficient addition to your kitchen. It allows you to cook healthier meals by using little to no oil, making it a great choice for health-conscious individuals. With its digital features, you can easily set the desired temperature and cooking time for a perfect result every time. It comes in two stylish colors, red and silver, to suit your kitchen decor. The regular price for this product is $119.99, but it is currently on sale for $109.99, making it a great deal. Enhance your cooking experience with this digital air fryer oven.Product 47: The Basketball Hoop Set is perfect for practicing slam dunks, whether you prefer playing indoors or outdoors. Designed in an attractive combination of",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "29",
+        {
+            "pageContent": "with this digital air fryer oven.Product 47: The Basketball Hoop Set is perfect for practicing slam dunks, whether you prefer playing indoors or outdoors. Designed in an attractive combination of orange and black, this set is perfect for sports enthusiasts. With a regular price of $49.99, it is currently on sale for $39.99, making it a great deal. Add this set to your sports collection and improve your basketball skills.Product 48: The Bluetooth Fitness Earbuds (SKU: BFE5678) are perfect for keeping you motivated during workouts. These earbuds are sweat resistant, ensuring durability and comfort during intense fitness sessions. They are available in both black and blue colors. As an electronic device, these earbuds fall under the electronics category. The original price of the earbuds is $59.99, but they are currently on sale for $49.99.Product 49: The Educational Science Kit is a fascinating and engaging tool for kids to explore the wonders of science. This kit is designed to provide",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "30",
+        {
+            "pageContent": "but they are currently on sale for $49.99.Product 49: The Educational Science Kit is a fascinating and engaging tool for kids to explore the wonders of science. This kit is designed to provide fun and educational experiments that encourage learning and curiosity. With a variety of activities and experiments, children can embark on a scientific journey that will stimulate their minds and broaden their knowledge. The kit is available in two vibrant colors, blue and red, and is suitable for children of all ages. Priced at $29.99, it offers exceptional value, but is currently on sale for $24.99. Encourage your child's love for science and learning with this incredible educational science kit.Product 50: The Wireless Charging Pad is a sleek and efficient device that allows you to charge your devices wirelessly. It is compatible with a variety of devices and comes in two stylish colors - black and rose gold. This charging pad is perfect for those who want a convenient and clutter-free",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "31",
+        {
+            "pageContent": "devices wirelessly. It is compatible with a variety of devices and comes in two stylish colors - black and rose gold. This charging pad is perfect for those who want a convenient and clutter-free charging experience. It is currently priced at $39.99, but is on sale for $34.99. Get your hands on this innovative electronics accessory today!Product 51: The Yoga Mat is a comfortable and durable yoga mat that is designed to enhance your yoga practice. Its luxurious non-slip surface provides excellent grip and stability, allowing you to focus on your poses without worrying about slipping. With a vibrant purple or pink color option, this mat adds a touch of style to your workout routine. It is perfect for both beginners and advanced practitioners, and its high-quality construction ensures long-lasting durability. The Yoga Mat is a must-have for anyone looking to improve their yoga practice.Product 52: The Juicer Blender Combo is a versatile appliance that allows you to blend and juice all in",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "32",
+        {
+            "pageContent": "durability. The Yoga Mat is a must-have for anyone looking to improve their yoga practice.Product 52: The Juicer Blender Combo is a versatile appliance that allows you to blend and juice all in one convenient device. With its powerful motor, it can easily crush and blend fruits, vegetables, and ice for smoothies and other beverages. The juicer attachment extracts fresh and nutritious juices from your favorite fruits and vegetables, providing you with a healthy and refreshing drink. This appliance is available in two stylish colors - orange and white. Perfect for any kitchen, this Juicer Blender Combo is a must-have for those looking to create delicious and nutritious drinks effortlessly. It has a regular price of $89.99, but is currently on sale for $79.99.Product 53: The Wireless Ergonomic Mouse is a must-have for anyone looking to enhance their productivity. This mouse is designed specifically for comfort and precision, allowing you to work or play for hours without discomfort. It",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "33",
+        {
+            "pageContent": "Mouse is a must-have for anyone looking to enhance their productivity. This mouse is designed specifically for comfort and precision, allowing you to work or play for hours without discomfort. It comes in two sleek color options - black and silver - that will complement any workspace. The mouse is wireless, giving you the freedom to move around without any hindrance. Its ergonomic design ensures that your hand rests in a natural position, reducing the strain on your wrists and preventing any potential injuries. The mouse is perfect for anyone, whether you're a professional working long hours or a gamer looking for precision control. At a regular price of $34.99, it offers excellent value for money. And if you act now, you can grab it at a discounted sale price of just $29.99! Don't miss out on this incredible opportunity to improve your work or gaming experience with the Wireless Ergonomic Mouse.Product 54: Upgrade your kitchen with this smart toaster oven for versatile cooking",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "34",
+        {
+            "pageContent": "miss out on this incredible opportunity to improve your work or gaming experience with the Wireless Ergonomic Mouse.Product 54: Upgrade your kitchen with this smart toaster oven for versatile cooking options. The Smart Toaster Oven, model STO1234, is a sleek and modern addition to your culinary arsenal. With a stunning silver and black color, this toaster oven not only looks great on your countertop but also offers a range of features that will elevate your cooking experience. From toasting bread and bagels to baking pizzas and roasting chicken, this toaster oven has got you covered. It is equipped with smart technology that allows you to control and monitor your cooking remotely, giving you the freedom to multitask or relax while your food cooks. Whether you need to cook a quick breakfast or prepare a full meal, the Smart Toaster Oven is designed to make cooking more convenient and enjoyable. With a regular price of $109.99, it is currently available at a discounted price of $99.99.",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ],
+    [
+        "35",
+        {
+            "pageContent": "or prepare a full meal, the Smart Toaster Oven is designed to make cooking more convenient and enjoyable. With a regular price of $109.99, it is currently available at a discounted price of $99.99. Upgrade your kitchen today with this versatile and smart toaster oven.",
+            "metadata": {
+                "loc": {
+                    "lines": {
+                        "from": 1,
+                        "to": 1
+                    }
+                }
+            }
+        }
+    ]
+]
