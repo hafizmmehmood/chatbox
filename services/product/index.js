@@ -38,5 +38,9 @@ prodRouter.get('/runnableWithPdf', (req, res) =>
 );
 
 
+prodRouter.get('/searchWithRetrievelConv', (req, res) =>
+    routes["productRoute"](req, res, "searchWithRetrievelConv")
+);
+
 
 module.exports = prodRouter;

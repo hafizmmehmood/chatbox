@@ -11,7 +11,7 @@ const { OpenAI } = require("langchain/llms/openai");
 const { MongoDBAtlasVectorSearch } = require("langchain/vectorstores/mongodb_atlas");
 const { RetrievalQAChain, ConversationalRetrievalQAChain, LLMChain } = require("langchain/chains");
 const llm = new OpenAI({
-    modelName: "gpt-3.5-turbo"
+    modelName: "gpt-4"
 });
 const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
 const { MongoClient } = require("mongodb");
@@ -26,6 +26,8 @@ const { BufferMemory } = require("langchain/memory");
 const { HNSWLib } = require("langchain/vectorstores/hnswlib");
 const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
 const { formatDocumentsAsString } = require("langchain/util/document");
+const makeChain = require("../../helper/makeChain");
+const handleChatHistory = require("../../helper/product.helper");
 
 const searchProduct = async (req) => {
     return new Promise(async (resolve) => {
@@ -277,26 +279,26 @@ const searchRunnables = async (req) => {
             //     returnMessages: true,
             //     chatHistory,
             // });
-            // const vectorStore = new MongoDBAtlasVectorSearch(
-            //     new OpenAIEmbeddings(),
-            //     {
-            //         collection,
-            //         indexName: "default",
-            //         textKey: "gpt_desc",
-            //         embeddingKey: "embedding",
-            //     }
-            // );
-            const directory = path.join(__dirname, '../../dataFiles/');
-            const vectorStore = await HNSWLib.load(directory, new OpenAIEmbeddings());
-
+            const vectorStore = new MongoDBAtlasVectorSearch(
+                new OpenAIEmbeddings(),
+                {
+                    collection,
+                    indexName: "default",
+                    textKey: "gpt_desc",
+                    embeddingKey: "embedding",
+                }
+            );
             const retriever = vectorStore.asRetriever();
+            const directory = path.join(__dirname, '../../dataFiles/');
+            // const vectorStore = await HNSWLib.load(directory, new OpenAIEmbeddings());
+            const text = fs.readFileSync(path.join(__dirname, '../../dataFiles/Products_Descriptions.txt'), "utf-8");
             const oldChats = await Chats.findOne({ userId: userId })
 
 
             // await memory.saveContext({ input: searchTerm }, { output: res1.text });
 
-            const formatChatHistory = (human, ai, previousChatHistory) => {
-                const newInteraction = `Human: ${human}\nAI: ${ai}`;
+            const formatChatHistory = (human, ai, index) => {
+                const newInteraction = `Question ${index}: ${human}\nAI: ${ai}`;
                 return newInteraction;
 
             };
@@ -337,7 +339,7 @@ const searchRunnables = async (req) => {
 
             var chatHist = []
             if (oldChats) {
-                chatHist = oldChats.chats.slice(oldChats.chats.length - 5, oldChats.chats.length).map((item) => formatChatHistory(item.human, item.ai))
+                chatHist = oldChats.chats.slice(oldChats.chats.length - 5, oldChats.chats.length).map((item, index) => formatChatHistory(item.human, item.ai, index + 1))
             }
 
             const resultOne = await chain.invoke({
@@ -408,26 +410,23 @@ const runnableWithPdf = async (req) => {
             const userId = req.jwt.id;
             const { searchTerm } = req.query
 
-            const text = fs.readFileSync(path.join(__dirname, '../../dataFiles/Products_Descriptions.txt'), "utf-8");
+            // const text = fs.readFileSync(path.join(__dirname, '../../dataFiles/Products_Descriptions.txt'), "utf-8");
             //To create Vector Store
 
-            const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
-            const docs = await textSplitter.createDocuments([text]);
-            const directory = path.join(__dirname, '../../dataFiles/');
-            const vectorStore = await HNSWLib.load(directory, new OpenAIEmbeddings());
-
+            // const textSplitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+            // const docs = await textSplitter.createDocuments([text]);
             // const vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
             // await vectorStore.save(directory);
+            const directory = path.join(__dirname, '../../dataFiles/');
+            const vectorStore = await HNSWLib.load(directory, new OpenAIEmbeddings());
             const retriever = vectorStore.asRetriever();
 
-            const client = await new MongoClient(process.env.DATABASE_URL);
-
-            const serializeChatHistory = (chatHistory) => {
-                if (Array.isArray(chatHistory)) {
-                    return chatHistory.join("\n");
-                }
-                return chatHistory;
-            };
+            // const serializeChatHistory = (chatHistory) => {
+            //     if (Array.isArray(chatHistory)) {
+            //         return chatHistory.join("\n");
+            //     }
+            //     return chatHistory;
+            // };
 
             const memory = new BufferMemory({
                 memoryKey: "chatHistory",
@@ -459,16 +458,28 @@ const runnableWithPdf = async (req) => {
             //     chatHistory?: string | Array<string>;
             //   }
 
+            const oldChats = await Chats.findOne({ userId: userId })
+            const formatChatHistory = (human, ai) => {
+                const newInteraction = `Human: ${human}\nAI: ${ai}`;
+                return newInteraction;
+
+            };
+            var chatHist = []
+            if (oldChats) {
+                chatHist = oldChats.chats.slice(oldChats.chats.length - 5, oldChats.chats.length).map((item) => formatChatHistory(item.human, item.ai))
+            }
+
             const handleProcessQuery = async (input) => {
                 const chain = new LLMChain({
                     llm: llm,
                     prompt: questionPrompt,
                     outputParser: new StringOutputParser(),
                 });
+                console.log("Input in Handle Processing", input)
 
                 const { text } = await chain.call({
                     ...input,
-                    chatHistory: serializeChatHistory(input.chatHistory ?? ""),
+                    chatHistory: chatHist
                 });
 
                 await memory.saveContext(
@@ -490,14 +501,11 @@ const runnableWithPdf = async (req) => {
                 {
                     question: (previousStepResult) => previousStepResult.question,
                     chatHistory: (previousStepResult) => {
-                        console.log("PrevRes", serializeChatHistory(previousStepResult.chatHistory ?? ""))
-                        return serializeChatHistory(previousStepResult.chatHistory ?? "")
+                        return previousStepResult.chatHistory ?? ""
                     },
                     context: async (previousStepResult) => {
                         // Fetch relevant docs and serialize to a string.
-                        const relevantDocs = await retriever.getRelevantDocuments(
-                            previousStepResult.question
-                        );
+                        const relevantDocs = await retriever.getRelevantDocuments(previousStepResult.question);
                         const serialized = formatDocumentsAsString(relevantDocs);
                         return serialized;
                     },
@@ -508,15 +516,12 @@ const runnableWithPdf = async (req) => {
             const generateQuestionChain = RunnableSequence.from([
                 {
                     question: (input) => input.question,
-                    chatHistory: async () => {
-                        const memoryResult = await memory.loadMemoryVariables({});
-                        return serializeChatHistory(memoryResult.chatHistory ?? "");
+                    chatHistory: async (input) => {
+                        return input.chatHistory ?? "";
                     },
                 },
                 questionGeneratorTemplate,
                 llm,
-                // Take the result of the above model call, and pass it through to the
-                // next RunnableSequence chain which will answer the question
                 {
                     question: (previousStepResult) =>
                         previousStepResult.text,
@@ -527,8 +532,8 @@ const runnableWithPdf = async (req) => {
             const branch = RunnableBranch.from([
                 [
                     async () => {
-                        const memoryResult = await memory.loadMemoryVariables({});
-                        const isChatHistoryPresent = !memoryResult.chatHistory.length;
+                        const isChatHistoryPresent =
+                            !!chatHist && chatHist.length;
 
                         return isChatHistoryPresent;
                     },
@@ -536,9 +541,9 @@ const runnableWithPdf = async (req) => {
                 ],
                 [
                     async () => {
-                        const memoryResult = await memory.loadMemoryVariables({});
+                        // const memoryResult = await memory.loadMemoryVariables({});
                         const isChatHistoryPresent =
-                            !!memoryResult.chatHistory && memoryResult.chatHistory.length;
+                            !!chatHist && chatHist.length;
 
                         return isChatHistoryPresent;
                     },
@@ -546,9 +551,15 @@ const runnableWithPdf = async (req) => {
                 ],
                 answerQuestionChain,
             ]);
+
+
+
             const fullChain = RunnableSequence.from([
                 {
                     question: (input) => input.question,
+                    chatHistory: (input) => {
+                        return input.chatHistory
+                    }
 
                 },
                 branch,
@@ -556,26 +567,14 @@ const runnableWithPdf = async (req) => {
 
             const resultOne = await fullChain.invoke({
                 question: searchTerm,
-
+                chatHistory: chatHist
             });
 
-            // const oldChats = await Chats.findOne({ userId: userId })
+            // const resultTwo = await fullChain.invoke({
+            //     question: "What was my last Question?",
+            // });
 
 
-
-            // const formatChatHistory = (human, ai, previousChatHistory) => {
-            //     const newInteraction = `Human: ${human}\nAI: ${ai}`;
-            //     return newInteraction;
-
-            // };
-
-
-
-
-            // var chatHist = []
-            // if (oldChats) {
-            //     chatHist = oldChats.chats.slice(oldChats.chats.length - 5, oldChats.chats.length).map((item) => formatChatHistory(item.human, item.ai))
-            // }
 
 
 
@@ -587,6 +586,75 @@ const runnableWithPdf = async (req) => {
                     message: 'vectorStore',
                     data: {
                         resultOne: resultOne,
+                        // resultTwo: resultTwo
+                    }
+                });
+            } else {
+                return resolve({
+                    code: 500,
+                    message: 'SERVERR_ERROR'
+                });
+            }
+        } catch (err) {
+            console.log("Error:", err)
+            return resolve({
+                code: 500,
+                message: 'SERVER_ERROR'
+            });
+        }
+    });
+}
+
+
+const searchWithRetrievelConv = async (req) => {
+    return new Promise(async (resolve) => {
+        try {
+            const userId = req.jwt.id;
+            const { searchTerm } = req.query
+
+            const client = await new MongoClient(process.env.DATABASE_URL);
+
+            const collection = client.db('chatbox').collection('products');
+
+            const sanitizedQuestion = searchTerm.trim().replaceAll('\n', ' ');
+
+            console.log("sanitizedQuestion", sanitizedQuestion)
+
+            const vectorStore = new MongoDBAtlasVectorSearch(
+                new OpenAIEmbeddings(),
+                {
+                    collection,
+                    indexName: "default",
+                    textKey: "gpt_desc",
+                    embeddingKey: "embedding",
+                }
+            );
+            const retriever = vectorStore.asRetriever();
+            const chain = makeChain(retriever);
+            const oldChats = await Chats.findOne({ userId: userId })
+            console.log("Old", oldChats)
+            const pastMessages = oldChats?.chats
+                ?.slice(-10)
+                ?.reverse()
+                ?.map(message => `Human: ${message.human}\nAssistant: ${message.ai}`)
+                ?.join('\n');
+
+            const resultOne = await chain.invoke({
+                question: sanitizedQuestion,
+                chat_history: pastMessages,
+            });
+
+            console.log("resultOne", resultOne)
+
+            await handleChatHistory(oldChats, userId, searchTerm, resultOne)
+
+            if (pastMessages) {
+                return resolve({
+                    code: 200,
+                    message: 'vectorStore',
+                    data: {
+                        resultOne: resultOne,
+                        pastMessages: pastMessages
                     }
                 });
             } else {
@@ -612,5 +680,6 @@ module.exports = {
     insertProdWithGpt,
     searchProdWithLC,
     searchRunnables,
-    runnableWithPdf
+    runnableWithPdf,
+    searchWithRetrievelConv
 }
