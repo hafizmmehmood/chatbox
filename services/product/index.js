@@ -32,6 +32,15 @@ prodRouter.get('/searchRunnables', (req, res) =>
     routes["productRoute"](req, res, "searchRunnables")
 );
 
+prodRouter.get('/chats', (req, res) => 
+    routes["productRoute"](req, res, "searchRunnablesWithFaiss")
+);
 
+prodRouter.get('/agents', (req, res) => 
+    routes["productRoute"](req, res, "searchRunnablesGenerativeAgents")
+);
 
+prodRouter.get('/pineconeSearch', (req, res) => 
+    routes["productRoute"](req, res, "searchWithPinecone")
+);
 module.exports = prodRouter;
