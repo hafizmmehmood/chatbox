@@ -11,7 +11,8 @@ const productSchema = new Schema({
     price: Number,
     sale_price: Number,
     embedding: Array,
-    gpt_desc: String
+    gpt_desc: String,
+    workspaceId: Number
 })
 
 const Product = mongoose.model('Product', productSchema);

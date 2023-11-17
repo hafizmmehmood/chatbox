@@ -11,7 +11,8 @@ const products =
       ],
       "category": "Kitchen",
       "price": 49.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":200
     },
     {
       "title": "Wireless Bluetooth Headphones",
@@ -23,7 +24,8 @@ const products =
       ],
       "category": "Electronics",
       "price": 129.99,
-      "sale_price": 119.99
+      "sale_price": 119.99,
+      "workspaceId":200
     },
     {
       "title": "High-Performance Soccer Ball",
@@ -35,7 +37,8 @@ const products =
       ],
       "category": "Sports",
       "price": 19.99,
-      "sale_price": 15.99
+      "sale_price": 15.99,
+      "workspaceId":100
     },
     {
       "title": "Educational Building Blocks",
@@ -47,7 +50,8 @@ const products =
       ],
       "category": "Kids",
       "price": 29.99,
-      "sale_price": 24.99
+      "sale_price": 24.99,
+      "workspaceId":200
     },
     {
       "title": "Casual Cotton T-Shirt",
@@ -59,7 +63,8 @@ const products =
       ],
       "category": "Clothes",
       "price": 14.99,
-      "sale_price": 11.99
+      "sale_price": 11.99,
+      "workspaceId":200
     },
     {
       "title": "Smart Blender",
@@ -71,7 +76,8 @@ const products =
       ],
       "category": "Kitchen",
       "price": 79.99,
-      "sale_price": 69.99
+      "sale_price": 69.99,
+      "workspaceId":200
     },
     {
       "title": "Noise-Canceling Earbuds",
@@ -83,7 +89,8 @@ const products =
       ],
       "category": "Electronics",
       "price": 89.99,
-      "sale_price": 79.99
+      "sale_price": 79.99,
+      "workspaceId":200
     },
     {
       "title": "Basketball Hoop Set",
@@ -95,7 +102,8 @@ const products =
       ],
       "category": "Sports",
       "price": 49.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":100
     },
     {
       "title": "Interactive Learning Tablet for Kids",
@@ -107,7 +115,8 @@ const products =
       ],
       "category": "Kids",
       "price": 34.99,
-      "sale_price": 29.99
+      "sale_price": 29.99,
+      "workspaceId":200
     },
     {
       "title": "Denim Shorts",
@@ -119,7 +128,8 @@ const products =
       ],
       "category": "Clothes",
       "price": 24.99,
-      "sale_price": 19.99
+      "sale_price": 19.99,
+      "workspaceId":200
     },
     {
       "title": "Smart Toaster Oven",
@@ -131,7 +141,8 @@ const products =
       ],
       "category": "Kitchen",
       "price": 109.99,
-      "sale_price": 99.99
+      "sale_price": 99.99,
+      "workspaceId":200
     },
     {
       "title": "Fitness Smartwatch",
@@ -143,7 +154,8 @@ const products =
       ],
       "category": "Electronics",
       "price": 149.99,
-      "sale_price": 139.99
+      "sale_price": 139.99,
+      "workspaceId":200
     },
     {
       "title": "Yoga Mat",
@@ -155,7 +167,8 @@ const products =
       ],
       "category": "Sports",
       "price": 29.99,
-      "sale_price": 24.99
+      "sale_price": 24.99,
+      "workspaceId":100
     },
     {
       "title": "Building Blocks Play Set",
@@ -167,7 +180,8 @@ const products =
       ],
       "category": "Kids",
       "price": 19.99,
-      "sale_price": 15.99
+      "sale_price": 15.99,
+      "workspaceId":200
     },
     {
       "title": "Striped Polo Shirt",
@@ -179,7 +193,8 @@ const products =
       ],
       "category": "Clothes",
       "price": 29.99,
-      "sale_price": 24.99
+      "sale_price": 24.99,
+      "workspaceId":200
     },
     {
       "title": "Multifunctional Blender",
@@ -191,7 +206,8 @@ const products =
       ],
       "category": "Kitchen",
       "price": 69.99,
-      "sale_price": 59.99
+      "sale_price": 59.99,
+      "workspaceId":200
     },
     {
       "title": "Wireless Gaming Mouse",
@@ -203,7 +219,8 @@ const products =
       ],
       "category": "Electronics",
       "price": 59.99,
-      "sale_price": 49.99
+      "sale_price": 49.99,
+      "workspaceId":200
     },
     {
       "title": "Tennis Racket Set",
@@ -215,7 +232,8 @@ const products =
       ],
       "category": "Sports",
       "price": 79.99,
-      "sale_price": 69.99
+      "sale_price": 69.99,
+      "workspaceId":100
     },
     {
       "title": "Educational Puzzle Set",
@@ -227,7 +245,8 @@ const products =
       ],
       "category": "Kids",
       "price": 14.99,
-      "sale_price": 11.99
+      "sale_price": 11.99,
+      "workspaceId":200
     },
     {
       "title": "Compact Food Processor",
@@ -236,7 +255,8 @@ const products =
       "color": ["white", "silver"],
       "category": "Kitchen",
       "price": 79.99,
-      "sale_price": 69.99
+      "sale_price": 69.99,
+      "workspaceId":200
     },
     {
       "title": "Wireless Charging Pad",
@@ -245,7 +265,8 @@ const products =
       "color": ["black", "rose gold"],
       "category": "Electronics",
       "price": 39.99,
-      "sale_price": 34.99
+      "sale_price": 34.99,
+      "workspaceId":200
     },
     {
       "title": "Cycling Helmet",
@@ -254,7 +275,8 @@ const products =
       "color": ["blue", "yellow"],
       "category": "Sports",
       "price": 49.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":100
     },
     {
       "title": "Interactive Storybook for Kids",
@@ -263,7 +285,8 @@ const products =
       "color": ["purple", "green"],
       "category": "Kids",
       "price": 19.99,
-      "sale_price": 16.99
+      "sale_price": 16.99,
+      "workspaceId":200
     },
     {
       "title": "Winter Knit Sweater",
@@ -272,7 +295,8 @@ const products =
       "color": ["gray", "burgundy"],
       "category": "Clothes",
       "price": 44.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":200
     },
     {
       "title": "Juicer Blender Combo",
@@ -281,7 +305,8 @@ const products =
       "color": ["orange", "white"],
       "category": "Kitchen",
       "price": 89.99,
-      "sale_price": 79.99
+      "sale_price": 79.99,
+      "workspaceId":200
     },
     {
       "title": "HD Action Camera",
@@ -290,7 +315,8 @@ const products =
       "color": ["black", "silver"],
       "category": "Electronics",
       "price": 129.99,
-      "sale_price": 119.99
+      "sale_price": 119.99,
+      "workspaceId":200
     },
     {
       "title": "Golf Club Set",
@@ -299,7 +325,8 @@ const products =
       "color": ["green", "black"],
       "category": "Sports",
       "price": 179.99,
-      "sale_price": 159.99
+      "sale_price": 159.99,
+      "workspaceId":100
     },
     {
       "title": "Educational Science Kit",
@@ -308,7 +335,8 @@ const products =
       "color": ["blue", "red"],
       "category": "Kids",
       "price": 29.99,
-      "sale_price": 24.99
+      "sale_price": 24.99,
+      "workspaceId":200
     },
     {
       "title": "Athletic Jogging Pants",
@@ -317,7 +345,8 @@ const products =
       "color": ["black", "navy"],
       "category": "Clothes",
       "price": 34.99,
-      "sale_price": 29.99
+      "sale_price": 29.99,
+      "workspaceId":200
     },
     {
       "title": "Digital Air Fryer",
@@ -326,7 +355,8 @@ const products =
       "color": ["silver", "black"],
       "category": "Kitchen",
       "price": 109.99,
-      "sale_price": 99.99
+      "sale_price": 99.99,
+      "workspaceId":200
     },
     {
       "title": "Wireless Noise-Canceling Headphones",
@@ -335,7 +365,8 @@ const products =
       "color": ["black", "gold"],
       "category": "Electronics",
       "price": 149.99,
-      "sale_price": 139.99
+      "sale_price": 139.99,
+      "workspaceId":200
     },
     {
       "title": "Skiing and Snowboarding Goggles",
@@ -344,7 +375,8 @@ const products =
       "color": ["blue", "orange"],
       "category": "Sports",
       "price": 59.99,
-      "sale_price": 49.99
+      "sale_price": 49.99,
+      "workspaceId":100
     },
     {
       "title": "Colorful Building Blocks",
@@ -353,7 +385,8 @@ const products =
       "color": ["pink", "yellow"],
       "category": "Kids",
       "price": 22.99,
-      "sale_price": 19.99
+      "sale_price": 19.99,
+      "workspaceId":200
     },
     {
       "title": "Slim Fit Dress Shirt",
@@ -362,7 +395,8 @@ const products =
       "color": ["white", "blue"],
       "category": "Clothes",
       "price": 49.99,
-      "sale_price": 44.99
+      "sale_price": 44.99,
+      "workspaceId":200
     },
     {
       "title": "Portable Smoothie Blender",
@@ -371,7 +405,8 @@ const products =
       "color": ["green", "purple"],
       "category": "Kitchen",
       "price": 34.99,
-      "sale_price": 29.99
+      "sale_price": 29.99,
+      "workspaceId":200
     },
     {
       "title": "Foldable Wireless Keyboard",
@@ -380,7 +415,8 @@ const products =
       "color": ["black", "silver"],
       "category": "Electronics",
       "price": 49.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":200
     },
     {
       "title": "Mountain Biking Helmet",
@@ -389,7 +425,8 @@ const products =
       "color": ["red", "gray"],
       "category": "Sports",
       "price": 69.99,
-      "sale_price": 59.99
+      "sale_price": 59.99,
+      "workspaceId":100
     },
     {
       "title": "Stainless Steel Blender",
@@ -398,7 +435,8 @@ const products =
       "color": ["silver", "black"],
       "category": "Kitchen",
       "price": 99.99,
-      "sale_price": 89.99
+      "sale_price": 89.99,
+      "workspaceId":200
     },
     {
       "title": "Smart Home Security Camera",
@@ -407,7 +445,8 @@ const products =
       "color": ["white", "black"],
       "category": "Electronics",
       "price": 129.99,
-      "sale_price": 119.99
+      "sale_price": 119.99,
+      "workspaceId":200
     },
     {
       "title": "Camping Tent",
@@ -416,7 +455,8 @@ const products =
       "color": ["green", "blue"],
       "category": "Sports",
       "price": 79.99,
-      "sale_price": 69.99
+      "sale_price": 69.99,
+      "workspaceId":100
     },
     {
       "title": "Interactive Science Book for Kids",
@@ -425,7 +465,8 @@ const products =
       "color": ["orange", "purple"],
       "category": "Kids",
       "price": 24.99,
-      "sale_price": 19.99
+      "sale_price": 19.99,
+      "workspaceId":200
     },
     {
       "title": "Quilted Winter Jacket",
@@ -434,7 +475,8 @@ const products =
       "color": ["black", "navy"],
       "category": "Clothes",
       "price": 79.99,
-      "sale_price": 69.99
+      "sale_price": 69.99,
+      "workspaceId":200
     },
     {
       "title": "Digital Air Fryer Oven",
@@ -443,7 +485,8 @@ const products =
       "color": ["red", "silver"],
       "category": "Kitchen",
       "price": 119.99,
-      "sale_price": 109.99
+      "sale_price": 109.99,
+      "workspaceId":200
     },
     {
       "title": "Wireless Charging Stand",
@@ -452,7 +495,8 @@ const products =
       "color": ["black", "rose gold"],
       "category": "Electronics",
       "price": 44.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":200
     },
     {
       "title": "Trail Running Shoes",
@@ -461,7 +505,8 @@ const products =
       "color": ["blue", "gray"],
       "category": "Sports",
       "price": 89.99,
-      "sale_price": 79.99
+      "sale_price": 79.99,
+      "workspaceId":100
     },
     {
       "title": "Educational Math Puzzle Set",
@@ -470,7 +515,8 @@ const products =
       "color": ["yellow", "green"],
       "category": "Kids",
       "price": 19.99,
-      "sale_price": 16.99
+      "sale_price": 16.99,
+      "workspaceId":200
     },
     {
       "title": "Cozy Hooded Sweatshirt",
@@ -479,7 +525,8 @@ const products =
       "color": ["gray", "burgundy"],
       "category": "Clothes",
       "price": 34.99,
-      "sale_price": 29.99
+      "sale_price": 29.99,
+      "workspaceId":200
     },
     {
       "title": "Sous Vide Precision Cooker",
@@ -488,7 +535,8 @@ const products =
       "color": ["silver", "black"],
       "category": "Kitchen",
       "price": 129.99,
-      "sale_price": 119.99
+      "sale_price": 119.99,
+      "workspaceId":200
     },
     {
       "title": "Bluetooth Fitness Earbuds",
@@ -497,7 +545,8 @@ const products =
       "color": ["black", "blue"],
       "category": "Electronics",
       "price": 59.99,
-      "sale_price": 49.99
+      "sale_price": 49.99,
+      "workspaceId":200
     },
     {
       "title": "Mountain Climbing Gear Set",
@@ -506,7 +555,8 @@ const products =
       "color": ["orange", "black"],
       "category": "Sports",
       "price": 159.99,
-      "sale_price": 149.99
+      "sale_price": 149.99,
+      "workspaceId":100
     },
     {
       "title": "Interactive World Map for Kids",
@@ -515,7 +565,8 @@ const products =
       "color": ["blue", "green"],
       "category": "Kids",
       "price": 29.99,
-      "sale_price": 24.99
+      "sale_price": 24.99,
+      "workspaceId":200
     },
     {
       "title": "Casual Striped Dress",
@@ -524,7 +575,8 @@ const products =
       "color": ["navy", "white"],
       "category": "Clothes",
       "price": 39.99,
-      "sale_price": 34.99
+      "sale_price": 34.99,
+      "workspaceId":200
     },
     {
       "title": "Compact Food Steamer",
@@ -533,7 +585,8 @@ const products =
       "color": ["white", "green"],
       "category": "Kitchen",
       "price": 49.99,
-      "sale_price": 39.99
+      "sale_price": 39.99,
+      "workspaceId":200
     },
     {
       "title": "Wireless Ergonomic Mouse",
@@ -542,7 +595,8 @@ const products =
       "color": ["black", "silver"],
       "category": "Electronics",
       "price": 34.99,
-      "sale_price": 29.99
+      "sale_price": 29.99,
+      "workspaceId":200
     },
     {
       "title": "Road Cycling Shoes",
@@ -551,7 +605,8 @@ const products =
       "color": ["red", "black"],
       "category": "Sports",
       "price": 69.99,
-      "sale_price": 59.99
+      "sale_price": 59.99,
+      "workspaceId":100
     },
   ]
 module.exports = products;

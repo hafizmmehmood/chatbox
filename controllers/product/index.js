@@ -1,15 +1,15 @@
 /* eslint-disable no-async-promise-executor */
 /* eslint-disable no-unused-vars */
 const products = require("../../dataFiles/newProducts");
-const callFunctions = require("../../helper.js/callFunctions");
-const vectorAggregation = require("../../helper.js/vectorAggregation");
+const callFunctions = require("../../helpers/callFunctions");
+const vectorAggregation = require("../../helpers/vectorAggregation");
 const { getOpenAiEmbedding, chatCompletionWithFuncs, chatWithMessages } = require("../../libs/services/gpt");
 const { createProduct } = require("../../libs/services/products");
 const Product = require("../../models/Product");
 const Chats = require("../../models/Chats")
 const { OpenAI } = require("langchain/llms/openai");
 const { MongoDBAtlasVectorSearch } = require("langchain/vectorstores/mongodb_atlas");
-const { RetrievalQAChain, ConversationalRetrievalQAChain, LLMChain } = require("langchain/chains");
+const { ConversationalRetrievalQAChain, LLMChain } = require("langchain/chains");
 const llm = new OpenAI({
     modelName: "gpt-4"
 });
@@ -26,9 +26,7 @@ const { BufferMemory } = require("langchain/memory");
 const { HNSWLib } = require("langchain/vectorstores/hnswlib");
 const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
 const { formatDocumentsAsString } = require("langchain/util/document");
-const makeChain = require("../../helper/makeChain");
-const handleChatHistory = require("../../helper/product.helper");
-
+const { retrievalConv } = require("../../helpers/GPT_funcs");
 const searchProduct = async (req) => {
     return new Promise(async (resolve) => {
         try {
@@ -610,59 +608,53 @@ const searchWithRetrievelConv = async (req) => {
     return new Promise(async (resolve) => {
         try {
             const userId = req.jwt.id;
-            const { searchTerm } = req.query
+            const { searchTerm } = req.query;
 
-            const client = await new MongoClient(process.env.DATABASE_URL);
-
-            const collection = client.db('chatbox').collection('products');
-
-            const sanitizedQuestion = searchTerm.trim().replaceAll('\n', ' ');
-
-            console.log("sanitizedQuestion", sanitizedQuestion)
-
-            const vectorStore = new MongoDBAtlasVectorSearch(
-                new OpenAIEmbeddings(),
-                {
-                    collection,
-                    indexName: "default",
-                    textKey: "gpt_desc",
-                    embeddingKey: "embedding",
-                }
-            );
-            const retriever = vectorStore.asRetriever();
-            const chain = makeChain(retriever);
-            const oldChats = await Chats.findOne({ userId: userId })
-            console.log("Old", oldChats)
-            const pastMessages = oldChats?.chats
-                ?.slice(-10)
-                ?.reverse()
-                ?.map(message => `Human: ${message.human}\nAssistant: ${message.ai}`)
-                ?.join('\n');
-
-            const resultOne = await chain.invoke({
-                question: sanitizedQuestion,
-                chat_history: pastMessages,
-            });
-
-            console.log("resultOne", resultOne)
-
-            await handleChatHistory(oldChats, userId, searchTerm, resultOne)
-
-            if (pastMessages) {
-                return resolve({
+            var gptResponse = await chatCompletionWithFuncs(searchTerm);
+            var callFunctionReturned;
+            let resp;
+            if (gptResponse) {
+              switch (gptResponse?.finish_reason) {
+                case "function_call":
+                  callFunctionReturned = await callFunctions(
+                    gptResponse?.message?.function_call?.name,
+                    gptResponse?.message?.function_call?.arguments,
+                    searchTerm,
+                    userId
+                  );
+                  break;
+                case "stop":
+                  return resolve({
                     code: 200,
-                    message: 'vectorStore',
+                    message: "SUCCESS",
                     data: {
-                        resultOne: resultOne,
-                        pastMessages: pastMessages
-                    }
-                });
-            } else {
+                      gptResponse: gptResponse?.message?.content,
+                    },
+                  });
+                default:
+                    resp = await retrievalConv(searchTerm, userId)
+                    return resolve({
+                        code: 200,
+                        message: "SUCCESS",
+                        data: resp,
+                    });
+              }}
+              if (callFunctionReturned) {
                 return resolve({
-                    code: 500,
-                    message: 'SERVERR_ERROR'
+                  code: 200,
+                  message: "SUCCESS",
+                  data: {
+                    functionCalled: gptResponse?.message?.function_call?.name,
+                    gptResponse: callFunctionReturned,
+                  },
                 });
-            }
+              } else {
+                // console.log("Error:", products)
+                return resolve({
+                  code: 500,
+                  message: "SERVER_ERROR",
+                });
+              }
         } catch (err) {
             console.log("Error:", err)
             return resolve({

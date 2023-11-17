@@ -1,5 +1,5 @@
 const axios = require("axios");
-const gptFuctions = require("../../../helper.js/gpt_helper");
+const gptFuctions = require("../../../helpers/gpt_helper");
 // const { createQuestion, updateQuestion, getQuestions } = require("../questions");
 
 const getOpenAiEmbedding = async (data) => {
