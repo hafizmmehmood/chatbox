@@ -3,6 +3,7 @@ const serviceRouter = express.Router();
 const { checkAuth } = require('../middlewares/checkAuth');
 const { isSuperAdmin } = require('../libs/shared/role');
 const Product = require('../models/Product');
+const Embeddings = require('../models/Embeddings');
 
 /**
  * @Route Admin Panel Routes
@@ -31,7 +32,7 @@ serviceRouter.use('/prod', [checkAuth], require('../services/product'));
 
 //To Add and Remove Sample Data
 serviceRouter.get('/deleteAll', async (req, res) => {
-  let resp = await Product.deleteMany({});
+  let resp = await Embeddings.deleteMany({});
   res.send(resp);
 });
 

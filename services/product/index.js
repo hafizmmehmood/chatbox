@@ -42,5 +42,10 @@ prodRouter.get('/searchWithRetrievelConv', (req, res) =>
     routes["productRoute"](req, res, "searchWithRetrievelConv")
 );
 
+prodRouter.get('/CreateDescAndEmbed', (req, res) =>
+    routes["productRoute"](req, res, "CreateDescAndEmbed")
+);
+
+
 
 module.exports = prodRouter;

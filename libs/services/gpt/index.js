@@ -1,7 +1,7 @@
 const axios = require("axios");
 const gptFuctions = require("../../../helpers/gpt_helper");
 // const { createQuestion, updateQuestion, getQuestions } = require("../questions");
-
+console.log("got URL", process.env.GPT_URL)
 const getOpenAiEmbedding = async (data) => {
 
     try {
@@ -15,7 +15,8 @@ const getOpenAiEmbedding = async (data) => {
                     Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
                 }
             });
-        return embedding?.data;
+        console.log("Embedding", embedding?.data?.data[0]?.embedding)
+        return embedding?.data?.data[0]?.embedding;
     } catch (err) {
         console.log("Get Embedding Api error", err?.response?.data?.error);
         return err;
@@ -58,7 +59,7 @@ const chatWithMessages = async (messages) => {
                 }
             });
         console.log("resp", resp?.data?.choices[0])
-        return resp?.data?.choices[0];
+        return resp?.data?.choices[0]?.message?.content;
     } catch (err) {
         console.log("Error in Chat Completion", err?.response?.data?.error);
         return err;

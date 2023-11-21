@@ -4,14 +4,15 @@ const products = require("../../dataFiles/newProducts");
 const callFunctions = require("../../helpers/callFunctions");
 const vectorAggregation = require("../../helpers/vectorAggregation");
 const { getOpenAiEmbedding, chatCompletionWithFuncs, chatWithMessages } = require("../../libs/services/gpt");
-const { createProduct } = require("../../libs/services/products");
+const { createProduct, getAllProducts, findProduct } = require("../../libs/services/products");
 const Product = require("../../models/Product");
 const Chats = require("../../models/Chats")
 const { OpenAI } = require("langchain/llms/openai");
 const { MongoDBAtlasVectorSearch } = require("langchain/vectorstores/mongodb_atlas");
 const { ConversationalRetrievalQAChain, LLMChain } = require("langchain/chains");
 const llm = new OpenAI({
-    modelName: "gpt-4"
+    modelName: "gpt-3.5-turbo",
+    max_tokens: 100
 });
 const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
 const { MongoClient } = require("mongodb");
@@ -26,7 +27,12 @@ const { BufferMemory } = require("langchain/memory");
 const { HNSWLib } = require("langchain/vectorstores/hnswlib");
 const { RecursiveCharacterTextSplitter } = require("langchain/text_splitter");
 const { formatDocumentsAsString } = require("langchain/util/document");
+const makeChain = require("../../helper/makeChain");
+const handleChatHistory = require("../../helper/product.helper");
+const createEmbedding = require("../../libs/services/embeddings");
+const shuttleData = require("../../dataFiles/ShuttleData");
 const { retrievalConv } = require("../../helpers/GPT_funcs");
+
 const searchProduct = async (req) => {
     return new Promise(async (resolve) => {
         try {
@@ -147,27 +153,90 @@ const getSingleEmbedding = async (req) => {
 const insertProdWithGpt = async (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const promises = products.map(async (prod, index) => {
-                const messages = [
-                    { role: "system", content: `You are AI Assistant. This is the Product Detail : ${JSON.stringify(prod)} Don't miss any information` },
-                    { role: "user", content: "Write a short description of the above product.  Don't miss any value of product information" }
-                ];
-                const resp = await chatWithMessages(messages);
-                const product = await createProduct({
-                    ...prod,
-                    gpt_desc: resp?.message?.content
-                });
-                return product; // Return the product or some identifier to track success
+            const prod = shuttleData[0]
+
+            console.log(prod)
+
+            // const messages = [
+            //     { role: "system", content: `You are AI Assistant. This is the Product Detail : ${JSON.stringify(prod)} Don't miss any information. You have to include every single information as it is in the description. Don't use "Same as above thing", If some things repeats rewrite it` },
+            //     { role: "user", content: "Write a short description of the above product. Include every single Information about the Product including sku, description, name, price, sale_price , tags , categories , variants , locations and attributes, quantity on locations , color options for variants. Don't miss any value of product information" }
+            // ];
+
+            // const resp = await chatWithMessages(messages);
+            const product = await createProduct({
+                ...prod,
+                // gpt_desc: resp?.message?.content
             });
 
-            const createdProducts = await Promise.all(promises);
-            console.log("createdProducts", createdProducts)
+
+
+
+            // const promises = shuttleData.map(async (prod, index) => {
+            //     const messages = [
+            //         { role: "system", content: `You are AI Assistant. This is the Product Detail : ${JSON.stringify(prod)} Don't miss any information. You have to include every single information as it is in the description. Don't use "Same as above thing", If some things repeats rewrite it` },
+            //         { role: "user", content: "Write a short description of the above product. Include every single Information about the Product including oid , sku, description, name, price, sale_price , tags , categories , variants , locations and attributes, quantity on locations , color options for variants. Don't miss any value of product information" }
+            //     ];
+
+            //     const resp = await chatWithMessages(messages);
+            //     const product = await createProduct({
+            //         ...prod,
+            //         gpt_desc: resp?.message?.content
+            //     });
+            //     return product; // Return the product or some identifier to track success
+            // });
+
+            // const createdProducts = await Promise.all(promises);
+            // console.log("createdProducts", createdProducts)
             // Check if all products were successfully created
-            console.log("allProductsCreated", createdProducts?.length === products?.length)
-            if (createdProducts?.length === products?.length) {
+            // console.log("allProductsCreated", createdProducts?.length === products?.length)
+            if (product) {
+                // if (createdProducts?.length === products?.length) {
                 return resolve({
                     code: 200,
                     message: 'Products Created',
+                });
+            } else {
+                return resolve({
+                    code: 500,
+                    message: 'SERVER_ERROR'
+                });
+            }
+        } catch (err) {
+            console.log("Error:", err)
+            return resolve({
+                code: 500,
+                message: 'SERVER_ERROR'
+            });
+        }
+    });
+}
+
+const CreateDescAndEmbed = async (req, res) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const promises = shuttleData.map(async (prod, index) => {
+                const messages = [
+                    { role: "system", content: `You are AI Assistant. This is the Product Detail : ${JSON.stringify(prod)} Don't miss any information. You have to include every single information as it is in the description. Don't use "Same as above thing", If some things repeats rewrite it.` },
+                    { role: "user", content: "Write a short description of the above product. Include every single Information about the Product including prodId , sku, description, name, price, sale_price , tags , categories , variants , locations and attributes, quantity on locations , color options for variants. Don't miss any value of product information. Make sure to write in your own words" }
+                ];
+                const gpt_desc = await chatWithMessages(messages);
+                const embedding = await getOpenAiEmbedding(gpt_desc);
+                const embededProd = await createEmbedding({
+                    prodId: prod?._id,
+                    gpt_desc: gpt_desc,
+                    embedding: embedding
+                });
+                return embededProd; // Return the product or some identifier to track success
+            });
+
+            const createdembededProd = await Promise.all(promises);
+            if (createdembededProd?.length === shuttleData?.length) {
+                // if (createdembededProd) {
+                return resolve({
+                    code: 200,
+                    message: 'Embedded Products Created',
+                    // gpt_desc: gpt_desc
                 });
             } else {
                 return resolve({
@@ -263,10 +332,6 @@ const searchRunnables = async (req) => {
 
             const collection = client.db('chatbox').collection('products');
 
-
-
-
-
             // const sessionId = mongoose.Types.ObjectId('654b3e83ac54041275bb45b2');
             // const chatHistory = new MongoDBChatMessageHistory({
             //     collection,
@@ -333,7 +398,6 @@ const searchRunnables = async (req) => {
                 llm,
                 new StringOutputParser(),
             ]);
-
 
             var chatHist = []
             if (oldChats) {
@@ -603,58 +667,94 @@ const runnableWithPdf = async (req) => {
     });
 }
 
-
 const searchWithRetrievelConv = async (req) => {
     return new Promise(async (resolve) => {
         try {
             const userId = req.jwt.id;
-            const { searchTerm } = req.query;
+            const { searchTerm } = req.query
+
+            const client = await new MongoClient(process.env.DATABASE_URL);
+
+            const collection = client.db('chatbox').collection('embeddings');
+
+
+            const sanitizedQuestion = searchTerm.trim().replaceAll('\n', ' ');
+
+            const vectorStore = new MongoDBAtlasVectorSearch(
+                new OpenAIEmbeddings({}),
+                {
+                    collection,
+                    indexName: "embedding_text",
+                    textKey: "gpt_desc",
+                    embeddingKey: "embedding",
+                }
+            );
+            const retriever = vectorStore.asRetriever();
+            const chain = makeChain(retriever);
+            const oldChats = await Chats.findOne({ userId: userId })
+            console.log("Old", oldChats)
+            const pastMessages = oldChats?.chats
+                ?.slice(-10)
+                ?.reverse()
+                ?.map(message => `Human: ${message.human}\nAssistant: ${message.ai}`)
+                ?.join('\n');
+
+            const resultOne = await chain.invoke({
+                question: sanitizedQuestion,
+                chat_history: pastMessages,
+                max_tokens: 10,
+            });
+
+            console.log("resultOne", resultOne)
+
+            await handleChatHistory(oldChats, userId, searchTerm, resultOne)
 
             var gptResponse = await chatCompletionWithFuncs(searchTerm);
             var callFunctionReturned;
             let resp;
             if (gptResponse) {
-              switch (gptResponse?.finish_reason) {
-                case "function_call":
-                  callFunctionReturned = await callFunctions(
-                    gptResponse?.message?.function_call?.name,
-                    gptResponse?.message?.function_call?.arguments,
-                    searchTerm,
-                    userId
-                  );
-                  break;
-                case "stop":
-                  return resolve({
+                switch (gptResponse?.finish_reason) {
+                    case "function_call":
+                        callFunctionReturned = await callFunctions(
+                            gptResponse?.message?.function_call?.name,
+                            gptResponse?.message?.function_call?.arguments,
+                            searchTerm,
+                            userId
+                        );
+                        break;
+                    case "stop":
+                        return resolve({
+                            code: 200,
+                            message: "SUCCESS",
+                            data: {
+                                gptResponse: gptResponse?.message?.content,
+                            },
+                        });
+                    default:
+                        resp = await retrievalConv(searchTerm, userId)
+                        return resolve({
+                            code: 200,
+                            message: "SUCCESS",
+                            data: resp,
+                        });
+                }
+            }
+            if (callFunctionReturned) {
+                return resolve({
                     code: 200,
                     message: "SUCCESS",
                     data: {
-                      gptResponse: gptResponse?.message?.content,
+                        functionCalled: gptResponse?.message?.function_call?.name,
+                        gptResponse: callFunctionReturned,
                     },
-                  });
-                default:
-                    resp = await retrievalConv(searchTerm, userId)
-                    return resolve({
-                        code: 200,
-                        message: "SUCCESS",
-                        data: resp,
-                    });
-              }}
-              if (callFunctionReturned) {
-                return resolve({
-                  code: 200,
-                  message: "SUCCESS",
-                  data: {
-                    functionCalled: gptResponse?.message?.function_call?.name,
-                    gptResponse: callFunctionReturned,
-                  },
                 });
-              } else {
+            } else {
                 // console.log("Error:", products)
                 return resolve({
-                  code: 500,
-                  message: "SERVER_ERROR",
+                    code: 500,
+                    message: "SERVER_ERROR",
                 });
-              }
+            }
         } catch (err) {
             console.log("Error:", err)
             return resolve({
@@ -673,5 +773,6 @@ module.exports = {
     searchProdWithLC,
     searchRunnables,
     runnableWithPdf,
-    searchWithRetrievelConv
+    searchWithRetrievelConv,
+    CreateDescAndEmbed
 }
